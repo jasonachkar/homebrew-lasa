@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LASA suppression policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "entries"],
+  "properties": {
+    "schema": {"const": "lasa.suppressions/v1"},
+    "entries": {
+      "type": "array", "maxItems": 4096,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["fingerprint", "justification"],
+        "properties": {
+          "fingerprint": {"type": "string", "minLength": 1},
+          "justification": {"type": "string", "pattern": "\\S"},
+          "expires": {"type": ["string", "null"], "format": "date-time"}
+        }
+      }
+    }
+  }
+}
