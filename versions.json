@@ -3,7 +3,8 @@
     "version": "current",
     "title": "Current documentation",
     "aliases": [
-      "latest"
+      "latest",
+      "preview"
     ]
   }
 ]
