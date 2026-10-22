@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Use LASA to understand local Linux attack surface, collection scope, evidence, privacy and operational limits.">
+        <meta name="description" content="Your field guide to Linux attack surface, local evidence, read-only scanning and security findings with LASA.">
       
       
       
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lasa-documentation" class="md-skip">
+        <a href="#know-your-linux-attack-surface" class="md-skip">
           Skip to content
         </a>
       
@@ -83,72 +83,15 @@
     
     
       
-
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="LASA Documentation" class="md-header__button md-logo" aria-label="LASA Documentation" data-md-component="logo">
-      
-  <img src="assets/logo.svg" alt="logo">
-
+    <a class="lasa-brand" href="." aria-label="LASA documentation home" data-md-component="logo">
+      <img src="assets/logo.svg" alt="" width="36" height="36">
+      <span>LASA</span>
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            LASA Documentation
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              LASA documentation
-            
-          </span>
-        </div>
-      </div>
-    </div>
     
       
-        <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
-    
-  
-</form>
-      
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
-    
-    
-    
-      
-      
-        <label class="md-header__button md-icon" for="__search">
-          
+        <label class="md-header__button md-icon lasa-mobile-search lasa-toggle" for="__search" role="button" tabindex="0" aria-label="Search">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         </label>
         <div class="md-search" data-md-component="search" role="dialog">
@@ -187,9 +130,41 @@
 </div>
       
     
-    
-  </nav>
+    <div class="lasa-header-tools">
+      <a class="lasa-source md-icon" href="https://github.com/jasonachkar/lasa" aria-label="LASA source code on GitHub" title="Source code">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+      </a>
+      
+        <form class="md-header__option" data-md-component="palette">
   
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+        <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      
+      <label class="md-header__button md-icon lasa-menu lasa-toggle" for="__drawer" role="button" tabindex="0" aria-label="Toggle navigation" aria-controls="lasa-navigation" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      </label>
+    </div>
+  </nav>
 </header>
     
     <div class="md-container" data-md-component="container">
@@ -208,7 +183,7 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+<nav id="lasa-navigation" class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <span class="md-nav__button md-logo">
   <img src="assets/logo.svg" alt="logo">
@@ -218,84 +193,99 @@
   <ul class="md-nav__list" data-md-scrollfix>
     
       <li class="md-nav__item md-nav__item--section">
-        <span class="md-nav__link lasa-nav-heading" id="lasa-nav-1">Start here</span>
-        <ul class="md-nav__list" aria-labelledby="lasa-nav-1">
-          
-            <li class="md-nav__item md-nav__item--active">
-              <a href="." class="md-nav__link md-nav__link--active" aria-current="page">
-                <span class="md-ellipsis">Welcome</span>
-              </a>
-            </li>
-          
-            <li class="md-nav__item">
-              <a href="product-guide/" class="md-nav__link">
-                <span class="md-ellipsis">Product guide</span>
-              </a>
-            </li>
-          
-            <li class="md-nav__item">
-              <a href="installation/" class="md-nav__link">
-                <span class="md-ellipsis">Install LASA</span>
-              </a>
-            </li>
-          
-        </ul>
+        <details class="lasa-nav-section" open>
+          <summary class="lasa-nav-heading">
+            <span id="lasa-nav-1">Start here</span>
+            <span class="md-icon lasa-nav-caret" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
+          </summary>
+          <ul class="md-nav__list" aria-labelledby="lasa-nav-1">
+            
+              <li class="md-nav__item md-nav__item--active">
+                <a href="." class="md-nav__link md-nav__link--active" aria-current="page">
+                  <span class="md-ellipsis">Welcome</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="product-guide/" class="md-nav__link">
+                  <span class="md-ellipsis">Product guide</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="installation/" class="md-nav__link">
+                  <span class="md-ellipsis">Install LASA</span>
+                </a>
+              </li>
+            
+          </ul>
+        </details>
       </li>
     
       <li class="md-nav__item md-nav__item--section">
-        <span class="md-nav__link lasa-nav-heading" id="lasa-nav-2">Use LASA</span>
-        <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
-          
-            <li class="md-nav__item">
-              <a href="cli-reference/" class="md-nav__link">
-                <span class="md-ellipsis">CLI reference</span>
-              </a>
-            </li>
-          
-            <li class="md-nav__item">
-              <a href="results/" class="md-nav__link">
-                <span class="md-ellipsis">Understand results</span>
-              </a>
-            </li>
-          
-            <li class="md-nav__item">
-              <a href="operations/" class="md-nav__link">
-                <span class="md-ellipsis">Operate and deploy</span>
-              </a>
-            </li>
-          
-            <li class="md-nav__item">
-              <a href="troubleshooting/" class="md-nav__link">
-                <span class="md-ellipsis">Troubleshoot</span>
-              </a>
-            </li>
-          
-        </ul>
+        <details class="lasa-nav-section" open>
+          <summary class="lasa-nav-heading">
+            <span id="lasa-nav-2">Use LASA</span>
+            <span class="md-icon lasa-nav-caret" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
+          </summary>
+          <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
+            
+              <li class="md-nav__item">
+                <a href="cli-reference/" class="md-nav__link">
+                  <span class="md-ellipsis">CLI reference</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="results/" class="md-nav__link">
+                  <span class="md-ellipsis">Understand results</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="operations/" class="md-nav__link">
+                  <span class="md-ellipsis">Operate and deploy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="troubleshooting/" class="md-nav__link">
+                  <span class="md-ellipsis">Troubleshoot</span>
+                </a>
+              </li>
+            
+          </ul>
+        </details>
       </li>
     
       <li class="md-nav__item md-nav__item--section">
-        <span class="md-nav__link lasa-nav-heading" id="lasa-nav-3">Trust and scope</span>
-        <ul class="md-nav__list" aria-labelledby="lasa-nav-3">
-          
-            <li class="md-nav__item">
-              <a href="data-and-privacy/" class="md-nav__link">
-                <span class="md-ellipsis">Collection, access and privacy</span>
-              </a>
-            </li>
-          
-            <li class="md-nav__item">
-              <a href="compatibility/" class="md-nav__link">
-                <span class="md-ellipsis">Compatibility and limits</span>
-              </a>
-            </li>
-          
-            <li class="md-nav__item">
-              <a href="secureobs/" class="md-nav__link">
-                <span class="md-ellipsis">SecureObs and local exports</span>
-              </a>
-            </li>
-          
-        </ul>
+        <details class="lasa-nav-section" open>
+          <summary class="lasa-nav-heading">
+            <span id="lasa-nav-3">Trust and scope</span>
+            <span class="md-icon lasa-nav-caret" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
+          </summary>
+          <ul class="md-nav__list" aria-labelledby="lasa-nav-3">
+            
+              <li class="md-nav__item">
+                <a href="data-and-privacy/" class="md-nav__link">
+                  <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="compatibility/" class="md-nav__link">
+                  <span class="md-ellipsis">Compatibility and limits</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="secureobs/" class="md-nav__link">
+                  <span class="md-ellipsis">SecureObs and local exports</span>
+                </a>
+              </li>
+            
+          </ul>
+        </details>
       </li>
     
   </ul>
@@ -311,7 +301,9 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
   
   
   
@@ -320,15 +312,26 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
+  <a href="#from-a-local-snapshot-to-a-clear-next-step" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Find your way
+        From a local snapshot to a clear next step
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choose-your-next-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose your next step
       
     </span>
   </a>
@@ -344,52 +347,13 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Your first scan">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-check-your-system" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Check your system
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-collect-a-snapshot" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Collect a snapshot
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-save-and-explore-the-evidence" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Save and explore the evidence
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
-  <a href="#understand-the-scope" class="md-nav__link">
+  <a href="#know-what-your-results-prove" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Understand the scope
+        Know what your results prove
       
     </span>
   </a>
@@ -416,13 +380,7 @@
             
           
           
-  <div class="md-content" data-md-component="content">
-    
-      
-
-
-
-
+  <div class="md-content lasa-home" data-md-component="content">
     
     <article class="md-content__inner md-typeset">
       
@@ -430,83 +388,74 @@
 
 
 
-<p class="lasa-eyebrow">Linux Attack Surface Analyzer</p>
-
-<h1 id="lasa-documentation">LASA documentation</h1>
+<h1 id="know-your-linux-attack-surface">Know your Linux attack surface.</h1>
 <div class="lasa-lead">
-<p>Understand what is exposed on your Linux systems. Install LASA, run your first scan, and turn local runtime evidence into actionable security findings.</p>
+<p>Your field guide to exposed services, permissions and runtime evidence. Start with one Linux system. Follow a finding back to its source. Understand what was checked and where visibility was limited.</p>
 </div>
 <div class="lasa-actions">
-<p><a class="md-button md-button--primary" href="installation/">Install LASA <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a>
-<a class="md-button" href="product-guide/">Explore the product guide</a></p>
+<p><a class="md-button md-button--primary" href="installation/">Run your first scan <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a>
+<a class="md-button" href="product-guide/">Explore LASA</a></p>
 </div>
-<div class="lasa-facts">
-<p><span><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.62 8.35c-.42.28-1.75 1.04-1.95 1.19-.39.31-.75.29-1.14-.01-.2-.16-1.53-.92-1.95-1.19-.48-.31-.45-.7.08-.92 1.64-.69 3.28-.64 4.91.03.49.21.51.6.05.9m7.22 7.28c-.93-2.09-2.2-3.99-3.84-5.66a4.3 4.3 0 0 1-1.06-1.88c-.1-.33-.17-.67-.24-1.01-.2-.88-.29-1.78-.7-2.61-.73-1.58-2-2.4-3.84-2.47-1.81.05-3.16.81-3.95 2.4-.21.43-.36.88-.46 1.34-.17.76-.32 1.55-.5 2.32-.15.65-.45 1.21-.96 1.71-1.61 1.57-2.9 3.37-3.88 5.35-.14.29-.28.58-.37.88-.19.66.29 1.12.99.96.44-.09.88-.18 1.3-.31.41-.15.57-.05.67.35.65 2.15 2.07 3.66 4.24 4.5 4.12 1.56 8.93-.66 9.97-4.58.07-.27.17-.37.47-.27.46.14.93.24 1.4.35.49.09.85-.16.92-.64.03-.26-.06-.49-.16-.73"/></svg></span> Linux AMD64 &amp; ARM64</span>
-<span><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12L5 6.3v4.92C5 15.54 8.25 20 12 21m-2-4-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9"/></svg></span> Read-only collection</span>
-<span><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2 2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"/></svg></span> Local reports. No telemetry.</span></p>
+<h2 id="from-a-local-snapshot-to-a-clear-next-step">From a local snapshot to a clear next step</h2>
+<div class="lasa-workflow">
+<ul>
+<li>
+<p><strong>1. Check your system</strong></p>
+<p>Install LASA on Linux AMD64 or ARM64. Use <code>lasa doctor</code> to check platform support and the visibility available to your current user.</p>
+</li>
+<li>
+<p><strong>2. Understand the evidence</strong></p>
+<p>Run a read-only scan. Connect process, socket, namespace, mount and permission metadata to findings, and review any collection gaps.</p>
+</li>
+<li>
+<p><strong>3. Review and follow through</strong></p>
+<p>Trace each finding to its evidence. Review recommended remediation, make changes through your own operations process, and scan again.</p>
+</li>
+</ul>
 </div>
-<h2 id="find-your-way">Find your way</h2>
-<p>Everything you need to install, use and operate LASA, with clear explanations of the evidence it collects.</p>
+<h2 id="choose-your-next-step">Choose your next step</h2>
 <div class="lasa-cards">
 <ul>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 5v6h1.17L12 13.17 9.83 11H11V5zm2-2H9v6H5l7 7 7-7h-4zm4 15H5v2h14z"/></svg></span> <strong>Install and get started</strong></p>
-<p>Set up LASA with APT, Linux Homebrew or a release binary, and check your system's visibility.</p>
-<p><a href="installation/">Installation and first use <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p><a href="installation/">I am new to LASA <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p>Install with APT, Linux Homebrew or a release binary, and complete your first scan.</p>
 </li>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z"/></svg></span> <strong>Run a scan</strong></p>
-<p>Explore commands, scanning options, report formats and exit codes.</p>
-<p><a href="cli-reference/">CLI reference <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p><a href="cli-reference/">I want to automate scans <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p>Choose scan options, export formats and exit codes for your workflow.</p>
 </li>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h7c-.41-.25-.8-.56-1.14-.9-.33-.33-.61-.7-.86-1.1H6V4h7v5h5v1.18c.71.16 1.39.43 2 .82V8zm6.31 16.9c1.33-2.11.69-4.9-1.4-6.22-2.11-1.33-4.91-.68-6.22 1.4-1.34 2.11-.69 4.89 1.4 6.22 1.46.93 3.32.93 4.79.02L22 23.39 23.39 22zm-3.81.1a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5"/></svg></span> <strong>Understand your findings</strong></p>
-<p>Follow the evidence behind each result, assess severity and identify your next steps.</p>
-<p><a href="results/">Read and interpret results <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p><a href="results/">I am investigating a finding <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p>Read severity and supporting evidence, assess uncertainty and review your next steps.</p>
 </li>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12L5 6.3v4.92C5 15.54 8.25 20 12 21m2.8-10V9.5C14.8 8.1 13.4 7 12 7S9.2 8.1 9.2 9.5V11c-.6 0-1.2.6-1.2 1.2v3.5c0 .7.6 1.3 1.2 1.3h5.5c.7 0 1.3-.6 1.3-1.2v-3.5c0-.7-.6-1.3-1.2-1.3m-1.3 0h-3V9.5c0-.8.7-1.3 1.5-1.3s1.5.5 1.5 1.3z"/></svg></span> <strong>Know what LASA accesses</strong></p>
-<p>See what the scanner reads, what it stores and how your data stays on your systems.</p>
-<p><a href="data-and-privacy/">Collection, access and privacy <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p><a href="data-and-privacy/">I need to understand data access <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p>See exactly what LASA reads, what it stores and which permissions it needs.</p>
 </li>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg></span> <strong>Deploy and operate</strong></p>
+<p><a href="operations/">I operate Linux systems <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
 <p>Schedule scans, manage report retention and configure the optional systemd service.</p>
-<p><a href="operations/">Operations guide <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
 </li>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.79 15.41c.95-2.17.95-4.66 0-6.82l-2.74 1.24c.6 1.38.6 2.95.01 4.34zm-4.37-11.2a8.54 8.54 0 0 0-6.83 0l1.24 2.73c1.39-.59 2.96-.59 4.35.01zM4.21 8.58a8.56 8.56 0 0 0 0 6.84l2.74-1.25c-.6-1.38-.6-2.96 0-4.35zm4.38 11.21a8.5 8.5 0 0 0 6.83-.01l-1.24-2.73a5.5 5.5 0 0 1-4.34.01zM12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 6a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4"/></svg></span> <strong>Resolve a problem</strong></p>
-<p>Understand permission errors, missing evidence and collection diagnostics.</p>
-<p><a href="troubleshooting/">Troubleshooting <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p><a href="troubleshooting/">I need to resolve a problem <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+<p>Understand permission errors, incomplete collection and diagnostic messages.</p>
 </li>
 </ul>
 </div>
 <h2 id="your-first-scan">Your first scan</h2>
-<div class="lasa-steps">
-<h3 id="1-check-your-system">1. Check your system</h3>
-<p>After <a href="installation/">installing LASA</a>, check platform support and the visibility available to your current user.</p>
+<p>After <a href="installation/">installing LASA</a>, check your system and collect a snapshot:</p>
 <div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>doctor
+lasa<span class="w"> </span>scan
 </code></pre></div>
-<h3 id="2-collect-a-snapshot">2. Collect a snapshot</h3>
-<p>Run a bounded, read-only scan. The terminal report explains findings and highlights any collection gaps.</p>
-<div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>scan
-</code></pre></div>
-<h3 id="3-save-and-explore-the-evidence">3. Save and explore the evidence</h3>
-<p>Save a JSON report and turn it into a self-contained HTML report for review. Report files stay on your system.</p>
+<p>Save the evidence as JSON and create a self-contained HTML report for review:</p>
 <div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>scan<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>first.report.json
 lasa<span class="w"> </span>report<span class="w"> </span>--input<span class="w"> </span>first.report.json<span class="w"> </span>--format<span class="w"> </span>html<span class="w"> </span>--output<span class="w"> </span>first.report.html
 </code></pre></div>
-</div>
-<h2 id="understand-the-scope">Understand the scope</h2>
-<p>LASA connects process, socket, namespace, mount, permission and selected kernel metadata to security findings. Each result explains what was observed and where visibility was limited. It does not exploit the host, modify its security configuration, capture network payloads or upload reports.</p>
-<ul>
-<li><a href="product-guide/">Product guide</a> — capabilities and common workflows.</li>
-<li><a href="compatibility/">Compatibility and limits</a> — supported systems and collection boundaries.</li>
-<li><a href="data-and-privacy/">Collection, access and privacy</a> — inspected paths, stored data and permissions.</li>
-<li><a href="secureobs/">SecureObs and local exports</a> — working with reports outside the scanner.</li>
-</ul>
+<h2 id="know-what-your-results-prove">Know what your results prove</h2>
+<p>LASA reads local Linux metadata and evaluates it with local security rules. It does not exploit the host, modify security configuration, capture network payloads or upload reports. Your reports stay on your system, with no telemetry or cloud account required.</p>
+<p>An empty findings list does not establish that a system is secure. Check the scan scope and collection diagnostics before drawing conclusions. See <a href="compatibility/">compatibility and limits</a> and <a href="data-and-privacy/">collection, access and privacy</a> for the boundaries of a scan.</p>
 <h2 id="versions-and-compatibility">Versions and compatibility</h2>
-<p>Run <code>lasa version</code> to check the installed scanner version. Executable versions and report schema versions are separate; see <a href="results/">understand results</a> when comparing reports across releases and <a href="compatibility/">compatibility and limits</a> for system requirements.</p>
+<p>Run <code>lasa version</code> to check the installed scanner version. Executable versions and report schema versions are separate; see <a href="results/">understand results</a> when comparing reports across releases.</p>
 
 
 
@@ -583,10 +532,12 @@ lasa<span class="w"> </span>report<span class="w"> </span>--input<span class="w"
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="assets/site.js"></script>
       
     
   </body>
