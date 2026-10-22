@@ -1,5 +1,0 @@
-.lasa-intro { padding: 1.8rem; border: 1px solid #14b8a640; border-radius: .6rem; background: linear-gradient(135deg, #14b8a61a, #06b6d40a); margin: 1.5rem 0 2rem; }
-.lasa-intro > p:first-child { font-size: 1.2rem; line-height: 1.6; }
-.lasa-intro .md-button { margin: .4rem .4rem 0 0; }
-.md-typeset table:not([class]) { width: 100%; }
-@media (max-width: 600px) { .lasa-intro { padding: 1rem; } }
