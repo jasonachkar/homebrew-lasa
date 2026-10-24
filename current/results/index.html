@@ -233,6 +233,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -271,6 +283,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -417,6 +435,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#report-and-diff-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Report and diff versions
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -475,7 +504,7 @@
 <li><code>local</code>: the endpoint is loopback or UNIX-local; this is not a blanket statement about other relay/proxy paths.</li>
 <li><code>unknown</code>: reachability could not be established for the subject.</li>
 </ul>
-<p>IPv6 wildcard bindings do not establish that IPv4 traffic will be accepted. LASA does not infer dual-stack policy, firewall rules, upstream NAT, cloud security groups or public load balancers from a bind address.</p>
+<p>IPv6 wildcard bindings do not establish that IPv4 traffic will be accepted. LASA does not infer dual-stack policy or upstream reachability from a bind address. Optional firewall inspection adds a separately qualified local nftables verdict; it does not establish upstream NAT, cloud security-group or load-balancer policy.</p>
 <h2 id="what-a-finding-contains">What a finding contains</h2>
 <p>A finding includes a fingerprint, versioned rule identity, affected subject, severity/confidence/exposure, supporting observation references, prerequisites, a conditional scenario, uncertainties, remediation and a transparent priority score. Related process instances can share a stable finding identity; their evidence is retained rather than treated as separate scan executions.</p>
 <p>Use <code>lasa explain</code> to inspect the recorded evidence. No explanation proves that compromise occurred. A remediation is advice to review, not an action LASA executes. For example, enabling a seccomp mode may require workload-specific testing and does not by itself establish that a useful attack surface was removed.</p>
@@ -486,8 +515,8 @@
 <p>The report connects observed relationships such as process ownership of a listener and possession of a capability. Any step requiring compromise, write access not fully proven, a later service restart or a particular upstream policy remains conditional. LASA does not invent a missing vulnerability to turn adjacent facts into an exploit chain.</p>
 <p>Current correlations are local evidence combinations centered on a subject. They are not an enterprise-wide lateral movement simulation or a proof that every listed graph neighbor forms one executable sequence.</p>
 <h2 id="comparing-snapshots">Comparing snapshots</h2>
-<p><code>lasa diff old.report.json new.report.json</code> requires matching host identities. It classifies findings as new, continuing, materially changed, resolved or unknown. Material changes include priority, severity, confidence, exposure and suppression status.</p>
-<p>A missing finding is only marked resolved when the newer compatible profile has complete collection and an explicit negative/not-applicable rule evaluation for the same stable subject. Disappearing or unenumerated assets remain unknown. This conservative policy can require a follow-up scan before a dashboard can claim resolution. Broader file roots or a different profile also affect comparability; record scan scope alongside reports.</p>
+<p><code>lasa diff old.report.json new.report.json</code> requires matching host identities. It classifies findings as new, continuing, materially changed, resolved or unknown. Material changes include priority, severity, confidence, exposure, suppression status and supporting evidence.</p>
+<p>A missing finding is only marked resolved when its relevant evidence collectors have complete coverage, the recorded profile/scope is compatible, and there is an explicit negative/not-applicable rule evaluation for the same stable subject. Disappearing or unenumerated assets remain unknown. This conservative policy can require a follow-up scan before a dashboard can claim resolution. Broader file roots or a different profile also affect comparability; record scan scope alongside reports.</p>
 <p>Fingerprint stability favors service identity, executable and stable cgroup context rather than PID alone. A resource rename, host identity change, container replacement or rule version change can legitimately yield a new fingerprint. A missing machine ID forces a boot-scoped fallback and is diagnosed; it weakens continuity across reboots.</p>
 <h2 id="suppressions">Suppressions</h2>
 <p>Suppression acknowledges a reviewed finding without removing its evidence. Create a local JSON file:</p>
@@ -505,6 +534,10 @@
 <p>Apply with <code>--suppressions exceptions.json</code>. A unique fingerprint and nonempty justification are mandatory; expiration is optional. Expired entries no longer suppress. Suppressed data stays in reports and SARIF exports, but does not trigger <code>--fail-on</code>. Protect and review this file as security policy; the daemon loads it at startup, so restart after a change.</p>
 <h2 id="report-formats">Report formats</h2>
 <p>JSON is the complete versioned interchange form. Terminal output is a readable summary and displays a bounded diagnostic preview; JSON retains every diagnostic. HTML is a static self-contained report containing observations and actionable errors. SARIF 2.1.0 uses genuine logical resource locations for runtime findings rather than fabricated source-code filenames. Some GitHub code scanning views require repository physical locations and may omit or poorly display host findings; retain the JSON/HTML report as the operational record.</p>
+<h2 id="report-and-diff-versions">Report and diff versions</h2>
+<p>New scans emit <code>lasa.report/v2</code>. The extension records inspection assets, enabled modules, requested metadata roots and a scope fingerprint; default scans still keep the baseline collection scope. The saved-report renderer accepts legacy <code>lasa.report/v1</code> without inventing inspection data. Older scanner builds and external consumers must be upgraded before consuming v2. Inspection extensions cannot be mislabeled as v1.</p>
+<p><code>lasa diff</code> emits <code>lasa.diff/v2</code>, including bounded <code>surface_changes</code> and an explicit <code>changes_truncated</code> flag. See <a href="../detection-coverage/">detection coverage</a> for inventory-change and resolution semantics. Public schemas are available for <a href="../assets/schemas/report-v2.schema.json">v2</a> and the <a href="../assets/schemas/report-v1.schema.json">legacy v1 contract</a>.</p>
+<p>Legacy reports without a scope fingerprint cannot establish compatible collection scope for automatic resolution; absent findings remain unknown until comparable v2 baselines are available.</p>
 
 
 

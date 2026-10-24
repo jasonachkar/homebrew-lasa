@@ -231,6 +231,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -269,6 +281,12 @@
               <li class="md-nav__item">
                 <a href="data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -332,6 +350,17 @@
     <span class="md-ellipsis">
       
         Choose your next step
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspect-the-configurations-that-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect the configurations that matter
       
     </span>
   </a>
@@ -418,7 +447,7 @@
 <ul>
 <li>
 <p><a href="installation/">I am new to LASA <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
-<p>Install with APT, Linux Homebrew or a release binary, and complete your first scan.</p>
+<p>Install with your Linux package manager, Linux Homebrew or a verified release binary, and complete your first scan.</p>
 </li>
 <li>
 <p><a href="cli-reference/">I want to automate scans <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
@@ -442,6 +471,10 @@
 </li>
 </ul>
 </div>
+<h2 id="inspect-the-configurations-that-matter">Inspect the configurations that matter</h2>
+<p>Connect effective service settings, local identities, execution paths and optional vendor advisory data to findings. Choose <a href="security-inspections/">security inspection modules</a>, review their <a href="data-and-privacy/">data access</a>, and understand <a href="detection-coverage/">detection coverage</a> before enabling them.</p>
+<div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>scan<span class="w"> </span>--inspect<span class="w"> </span>systemd,ssh,permissions
+</code></pre></div>
 <h2 id="your-first-scan">Your first scan</h2>
 <p>After <a href="installation/">installing LASA</a>, check your system and collect a snapshot:</p>
 <div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>doctor
@@ -452,7 +485,7 @@ lasa<span class="w"> </span>scan
 lasa<span class="w"> </span>report<span class="w"> </span>--input<span class="w"> </span>first.report.json<span class="w"> </span>--format<span class="w"> </span>html<span class="w"> </span>--output<span class="w"> </span>first.report.html
 </code></pre></div>
 <h2 id="know-what-your-results-prove">Know what your results prove</h2>
-<p>LASA reads local Linux metadata and evaluates it with local security rules. It does not exploit the host, modify security configuration, capture network payloads or upload reports. Your reports stay on your system, with no telemetry or cloud account required.</p>
+<p>LASA reads local Linux metadata and evaluates it with local security rules. Optional inspections add the explicitly selected configuration providers. It does not exploit the host, modify security configuration, capture network payloads or upload reports. Your reports stay on your system, with no telemetry or cloud account required.</p>
 <p>An empty findings list does not establish that a system is secure. Check the scan scope and collection diagnostics before drawing conclusions. See <a href="compatibility/">compatibility and limits</a> and <a href="data-and-privacy/">collection, access and privacy</a> for the boundaries of a scan.</p>
 <h2 id="versions-and-compatibility">Versions and compatibility</h2>
 <p>Run <code>lasa version</code> to check the installed scanner version. Executable versions and report schema versions are separate; see <a href="results/">understand results</a> when comparing reports across releases.</p>

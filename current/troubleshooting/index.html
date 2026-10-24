@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#troubleshooting-and-diagnostic-reference" class="md-skip">
+        <a href="#product-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -233,6 +233,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -271,6 +283,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -319,10 +337,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#read-the-whole-diagnostic" class="md-nav__link">
+  <a href="#the-problem-lasa-helps-investigate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Read the whole diagnostic
+        The problem LASA helps investigate
       
     </span>
   </a>
@@ -330,10 +348,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#common-codes" class="md-nav__link">
+  <a href="#what-happens-during-a-scan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common codes
+        What happens during a scan
       
     </span>
   </a>
@@ -341,10 +359,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#permission-diagnosis" class="md-nav__link">
+  <a href="#facts-deductions-and-scenarios" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Permission diagnosis
+        Facts, deductions and scenarios
       
     </span>
   </a>
@@ -352,10 +370,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-no-findings-appeared" class="md-nav__link">
+  <a href="#profiles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why no findings appeared
+        Profiles
       
     </span>
   </a>
@@ -363,10 +381,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-an-issue-stayed-unknown-after-a-change" class="md-nav__link">
+  <a href="#reading-the-outcome" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why an issue stayed unknown after a change
+        Reading the outcome
       
     </span>
   </a>
@@ -374,10 +392,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#collecting-a-support-bundle" class="md-nav__link">
+  <a href="#where-the-product-fits" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Collecting a support bundle
+        Where the product fits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#effective-configuration-and-advisory-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Effective configuration and advisory inspection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspection-specific-diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspection-specific diagnostics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-manager-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package-manager installation
       
     </span>
   </a>
@@ -401,149 +452,127 @@
 
 
 
-<h1 id="troubleshooting-and-diagnostic-reference">Troubleshooting and diagnostic reference</h1>
-<h2 id="read-the-whole-diagnostic">Read the whole diagnostic</h2>
-<p>Every structured collector diagnostic carries a code, component, operation, target, underlying cause, errno when available, evidence impact, remediation and recoverability. Some also identify a required feature or privilege. Use JSON for the complete diagnostic list; terminal summary output displays at most twelve diagnostics to avoid burying findings.</p>
-<div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>doctor<span class="w"> </span>--format<span class="w"> </span>json
-lasa<span class="w"> </span>scan<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>investigation.report.json
-</code></pre></div>
-<p>A successful report write can contain incomplete collection. <code>--strict</code> exposes this as exit 3. Fix the specific cause and rerun; the existence of a previous report does not establish that new settings took effect.</p>
-<h2 id="common-codes">Common codes</h2>
+<h1 id="product-guide">Product guide</h1>
+<h2 id="the-problem-lasa-helps-investigate">The problem LASA helps investigate</h2>
+<p>Linux security depends on combinations of conditions. A listener, a root process and an enabled kernel feature have very different implications depending on how they relate. LASA organizes local evidence so an operator can prioritize combinations that deserve attention: for example, a potentially reachable process that also carries powerful initial-user-namespace capabilities.</p>
+<p>LASA is useful for host posture reviews, workload privilege reviews, pre-deployment checks, incident triage and tracking the effect of hardening changes. It is a point-in-time evidence tool, not an incident response verdict, vulnerability exploit framework, malware detector or replacement for a firewall policy review.</p>
+<h2 id="what-happens-during-a-scan">What happens during a scan</h2>
+<ol>
+<li>LASA determines its visible Linux scope and records the time and host identity context.</li>
+<li>It collects bounded process, socket, namespace, kernel-control and explicitly scoped file metadata.</li>
+<li>It connects evidence that refers to the same visible subjects.</li>
+<li>It evaluates reviewed local rules, preserving unknown and conflicting evidence.</li>
+<li>It emits findings, supporting observations, conditional risk scenarios, coverage and diagnostics.</li>
+</ol>
+<p>There is no active network reconnaissance or direct outbound discovery request during a scan. Optional native providers and advisory management have the separate access contract below. Local socket information is read from the kernel; LASA does not try connecting to each service. The optional sensor observes a finite event window and is requested explicitly through the sensor profile.</p>
+<h2 id="facts-deductions-and-scenarios">Facts, deductions and scenarios</h2>
+<p>A fact might establish that a process owns a TCP listener or that a file has a particular permission mode. A deduction may associate a conventional management port with that process. A scenario explains a possible consequence <strong>if</strong> an attacker first obtains the necessary access or control.</p>
+<p>Those are different kinds of statements. A wildcard listener is potentially reachable outside loopback, but its internet reachability is unknown. An SSH authorized-key file with permissive metadata might still be rejected by SSH. A container-looking cgroup name is a hint rather than proof of a container runtime boundary. LASA includes these qualifications in the relevant finding.</p>
+<h2 id="profiles">Profiles</h2>
 <table>
 <thead>
 <tr>
-<th>Code</th>
-<th>Why it happens</th>
-<th>What to do</th>
+<th>Profile</th>
+<th>Intended use</th>
+<th>Privilege behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>HOST_UNSUPPORTED</code></td>
-<td>Incompatible platform or initialization requirement</td>
-<td>Use supported Linux and inspect the underlying cause; deep requires explicitly authorized UID 0</td>
+<td><code>standard</code></td>
+<td>Safe baseline in the current visible Linux namespaces</td>
+<td>Ordinary user; no elevation</td>
 </tr>
 <tr>
-<td><code>PROC_UNAVAILABLE</code> / <code>PROC_RESTRICTED</code></td>
-<td>Required own-process or boot metadata is absent or denied</td>
-<td>Mount supported procfs and authorize its required metadata visibility; reliable process identity needs boot ID</td>
+<td><code>deep</code></td>
+<td>Explicitly authorized higher-visibility host metadata inspection</td>
+<td>Requires effective UID 0; still subject to capabilities and policy</td>
 </tr>
 <tr>
-<td><code>CONFIG_INVALID</code></td>
-<td>Invalid profile, budget, local rule pack or policy</td>
-<td>Correct the named field/path; use generated command help</td>
+<td><code>container</code></td>
+<td>An explicitly acknowledged container view</td>
+<td>Does not add host access</td>
 </tr>
 <tr>
-<td><code>PERMISSION_DENIED</code></td>
-<td>Procfs, namespace, ACL or directory policy denied the operation</td>
-<td>Check the specific target and namespace; do not grant broad capabilities as a generic fix</td>
-</tr>
-<tr>
-<td><code>PROCESS_VANISHED</code></td>
-<td>A short-lived process disappeared during its snapshot</td>
-<td>Expected under churn; rerun if the process matters; old findings remain uncertain</td>
-</tr>
-<tr>
-<td><code>NETWORK_NAMESPACE_UNREADABLE</code></td>
-<td>No visible representative could expose a namespace table</td>
-<td>Verify process visibility and namespace policy; the scanner cannot infer hidden sockets</td>
-</tr>
-<tr>
-<td><code>NOT_FOUND</code></td>
-<td>A configured metadata path is absent or not visible</td>
-<td>Confirm whether the feature/resource exists in this view; absence is not a blanket secure result</td>
-</tr>
-<tr>
-<td><code>UNSAFE_PATH</code></td>
-<td>A path traverses a symlink or escapes its constrained root</td>
-<td>Select a reviewed canonical path; no automatic arbitrary symlink traversal is provided</td>
-</tr>
-<tr>
-<td><code>METADATA_ENCODING</code></td>
-<td>A path has non-UTF-8 bytes and its JSON label is lossy</td>
-<td>Use the diagnostic's quoted byte target for exact filesystem identification</td>
-</tr>
-<tr>
-<td><code>RESOURCE_LIMIT</code></td>
-<td>A configured or fixed enumeration budget was reached</td>
-<td>Narrow scope or deliberately raise the configurable budget; inspect remaining incomplete coverage</td>
-</tr>
-<tr>
-<td><code>COLLECTION_FAILED</code></td>
-<td>Metadata could not be safely read or parsed</td>
-<td>Inspect operation, target and detailed cause, including truncation/format errors</td>
-</tr>
-<tr>
-<td><code>SCAN_CANCELLED</code></td>
-<td>Deadline or signal interrupted a collection phase</td>
-<td>Increase a too-short deadline or rerun after intentional cancellation</td>
-</tr>
-<tr>
-<td><code>BTF_UNAVAILABLE</code></td>
-<td>Optional sensor cannot access usable kernel BTF</td>
-<td>Use a BTF-enabled supported host; static scans remain available</td>
-</tr>
-<tr>
-<td><code>EBPF_PERMISSION_DENIED</code></td>
-<td>Kernel policy denied feature probing, loading or attachment</td>
-<td>Validate authorized BPF/perf privileges in the relevant user namespace and host policy</td>
-</tr>
-<tr>
-<td><code>EBPF_VERIFIER_REJECTED</code></td>
-<td>The kernel verifier rejected the program</td>
-<td>Preserve verifier output; report exact kernel/configuration to maintainers; never bypass it</td>
-</tr>
-<tr>
-<td><code>TRACEPOINT_UNAVAILABLE</code></td>
-<td>A required tracepoint or its visibility is missing</td>
-<td>Inspect tracefs exposure and supported event sources; unavailable sources are not fabricated</td>
-</tr>
-<tr>
-<td><code>EBPF_LOAD_FAILED</code></td>
-<td>Object, CO-RE, memory or kernel loading failure</td>
-<td>Read the precise cause; verify BTF, helpers, map support and memory limits</td>
-</tr>
-<tr>
-<td><code>EBPF_EVENTS_LOST</code></td>
-<td>Kernel buffer pressure or retained-event budget discarded events</td>
-<td>Treat runtime coverage as incomplete; shorten windows or reduce workload/observation pressure</td>
-</tr>
-<tr>
-<td><code>REPORT_READ_FAILED</code> / <code>REPORT_INVALID</code></td>
-<td>Missing, unsafe, oversized or unsupported report input</td>
-<td>Supply the original supported JSON report through a regular non-symlink path</td>
-</tr>
-<tr>
-<td><code>FINDING_NOT_FOUND</code></td>
-<td>Fingerprint is absent from the selected report</td>
-<td>Use the full fingerprint from that scan, not its rule ID</td>
-</tr>
-<tr>
-<td><code>REPORT_INCOMPATIBLE</code></td>
-<td>Reports cannot be meaningfully compared</td>
-<td>Verify host identity and schema/profile context</td>
-</tr>
-<tr>
-<td><code>OUTPUT_WRITE_FAILED</code></td>
-<td>Destination is unsafe, missing, unwritable or full</td>
-<td>Create a private real parent directory; check filesystem capacity and ownership</td>
-</tr>
-<tr>
-<td><code>DAEMON_FAILED</code></td>
-<td>State lock, persistence, retention or scan failure</td>
-<td>Inspect the nested cause and supervisor log; avoid competing daemons in one state directory</td>
+<td><code>sensor</code></td>
+<td>Static snapshot plus a finite eBPF metadata event window</td>
+<td>Requires separately authorized kernel prerequisites; failures remain visible</td>
 </tr>
 </tbody>
 </table>
-<h2 id="permission-diagnosis">Permission diagnosis</h2>
-<p>Root is not a universal solution. Reading other users' procfs links is subject to ptrace policy, namespace ownership, procfs options and LSM policy. Container capability sets can exclude otherwise useful operations even for UID 0. Deep scans require an authorized host context; LASA does not recommend CAP_SYS_ADMIN as a universal workaround.</p>
-<p>For eBPF, feature support, BTF and tracepoints are independent prerequisites. CAP_BPF and CAP_PERFMON are commonly relevant on suitable kernels, but host policy and older-kernel behavior still matter. Doctor's visibility checks alone do not establish load permission or event delivery.</p>
-<h2 id="why-no-findings-appeared">Why no findings appeared</h2>
-<p>A clean finding list can mean no supported rule matched the observed evidence, that the relevant condition was outside scope, or that needed facts were unknown. Check diagnostics and rule evaluations. The confirmed-exposure predicate is intentionally unknown in static scans; wildcard binding is not enough to satisfy it.</p>
-<h2 id="why-an-issue-stayed-unknown-after-a-change">Why an issue stayed unknown after a change</h2>
-<p>A missing or inaccessible subject is not a verified fix. Complete a compatible scan that can evaluate the prior subject and establish the relevant negative condition. Resource replacement, cgroup changes, machine-ID changes and rule-version changes can affect identity and continuity.</p>
-<h2 id="collecting-a-support-bundle">Collecting a support bundle</h2>
-<p>Provide the scanner version, Linux distribution/kernel/architecture, profile, relevant budgets, exact diagnostic codes and a minimized redacted report excerpt. Do not send credentials, process environments, private keys or full infrastructure reports to a public issue. Reports can reveal paths, identities and service topology even without file contents. Use your organization's approved private support channel for sensitive evidence.</p>
+<p>Deep does not turn off security controls, connect to runtime sockets, read credentials or recursively crawl the whole filesystem. Root in a restricted container does not become host root merely by selecting a profile.</p>
+<h2 id="reading-the-outcome">Reading the outcome</h2>
+<p>Review the declared scope and collection diagnostics before interpreting findings. A scan may successfully write a useful report while some checks remain incomplete. Enable <code>--strict</code> when automation must distinguish this state through the process exit code.</p>
+<p>For each finding, examine its observed evidence, prerequisites, confidence, uncertainty and recommended remediation. Verify impact and maintenance constraints before changing a production service. LASA does not execute remediation actions.</p>
+<h2 id="where-the-product-fits">Where the product fits</h2>
+<p>Reports are usable on their own, in a local operations process, or by a future SecureObs ingestion service. LASA does not require a backend, a graph database or an always-running agent to perform a one-shot scan. It does not monitor activity continuously unless an operator arranges repeated sensor windows; scheduled windows can have observation gaps.</p>
+<p>See <a href="../data-and-privacy/">data and privacy</a>, <a href="../results/">result interpretation</a> and <a href="../compatibility/">compatibility</a> before deploying it fleet-wide.</p>
+<h2 id="effective-configuration-and-advisory-inspection">Effective configuration and advisory inspection</h2>
+<p>Use <code>--inspect</code> to add supported systemd, SSH, sudo, discretionary permissions, nftables, Docker-compatible runtime, package-advisory and scheduler checks. Modules emit evidence and coverage into the same report and finding workflow. These modules can read selected configuration/native-provider output beyond the default metadata sources; they do not run exploit tests or apply remediation.</p>
+<p>Start with <a href="../security-inspections/">security inspections</a>, prepare <a href="../package-advisories/">package advisories</a> if needed, and review <a href="../detection-coverage/">detection coverage</a>. Configuration changes and advisory data remain subject to their provider and freshness requirements. A larger enabled scope is not a guarantee that every security condition can be decided.</p>
+<h2 id="inspection-specific-diagnostics">Inspection-specific diagnostics</h2>
+<table>
+<thead>
+<tr>
+<th>Code or symptom</th>
+<th>Why it happens</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NATIVE_TOOL_UNTRUSTED</code></td>
+<td>A native executable or ancestor is writable or is not root-controlled in this namespace</td>
+<td>Review the named owner/mode and deployment namespace; use trusted system tools without weakening validation</td>
+</tr>
+<tr>
+<td><code>INSPECTION_TIMEOUT</code></td>
+<td>A native provider exceeded its deadline</td>
+<td>Check manager availability/load and deliberately adjust command/scan deadlines if appropriate</td>
+</tr>
+<tr>
+<td><code>INSPECTION_UNSUPPORTED</code></td>
+<td>Syntax, provider version, namespace, packet context or advisory coverage cannot be interpreted safely</td>
+<td>Read the named module's boundary; preserve the unknown result and inspect independently</td>
+</tr>
+<tr>
+<td><code>RESOURCE_LIMIT</code></td>
+<td>Work, native output, response or evidence budget was exhausted</td>
+<td>Narrow the selected scope or deliberately adjust documented work limits; retain incomplete coverage</td>
+</tr>
+<tr>
+<td><code>COLLECTOR_INTERNAL_ERROR</code></td>
+<td>A collector encountered an internal panic</td>
+<td>Other collectors can finish; report the component, scanner version and stack fingerprint privately to the maintainer</td>
+</tr>
+<tr>
+<td>Native query failure</td>
+<td>Missing tool, denied policy query, inaccessible manager/runtime, or rejected configuration</td>
+<td>Review the target and safe cause/location. Raw native output is withheld when it may disclose secrets</td>
+</tr>
+<tr>
+<td>No package vulnerability result</td>
+<td>Advisory file is missing, stale, expired, malformed or for a different release</td>
+<td>Refresh through the approved updater/vendor process; do not relabel stale timestamps</td>
+</tr>
+<tr>
+<td>Byte-retention failure</td>
+<td>The newest snapshot alone exceeds the managed byte quota</td>
+<td>Increase the quota or reduce report scope; the snapshot is retained and failure remains visible</td>
+</tr>
+<tr>
+<td>Disk-space preflight/write failure</td>
+<td>Available space or filesystem permissions do not meet persistence requirements</td>
+<td>Restore capacity/permissions, preserve existing reports and restart through the supervisor</td>
+</tr>
+</tbody>
+</table>
+<p>The scanner does not automatically upgrade native tools, change firewall policy, reset runtime permissions or elevate to make a diagnostic disappear. See <a href="../security-inspections/">security inspections</a> for the exact provider requirements.</p>
+<h2 id="package-manager-installation">Package-manager installation</h2>
+<p>If APT reports <code>Unable to locate package lasa</code>, or another manager reports no matching package, enable LASA's signed repository using <a href="../installation/">installation</a>. <code>apt install</code> cannot find a package in an unconfigured repository. Run the setup script only after the repository has been published; a website being available does not establish that a package release completed.</p>
+<p>If a repository/index URL returns 404, check the source URL, architecture, release/publishing status and HTTPS certificate. The generated <code>https://lasa.secureobs.com/distribution.json</code> identifies the published native formats/version. During a new deployment, stale CDN caches can briefly disagree; retry after propagation rather than disabling verification.</p>
+<p>Key fingerprint/hash mismatches, invalid metadata signatures, missing package signatures and package-hash errors are fatal trust failures. Retain the diagnostic and expected fingerprint, check proxy/cache behavior and contact your repository administrator. Do not use <code>--nogpgcheck</code>, <code>--allow-untrusted</code>, insecure TLS or a replacement key from an unverified message. The setup script stops at conflicting LASA-owned configuration files so an administrator can review ownership.</p>
+<p>The Arch setup performs a full upgrade to avoid partial upgrades. Package installation does not start a scanner. If an installed binary fails <code>lasa doctor</code>, inspect kernel/syscall/seccomp/procfs support separately from package availability. See <a href="../compatibility/">compatibility</a>.</p>
 
 
 

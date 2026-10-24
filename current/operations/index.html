@@ -233,6 +233,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -271,6 +283,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -395,6 +413,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#scheduling-inspections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling inspections
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -423,7 +452,7 @@
 <p>Snapshots are written as <code>scan-TIMESTAMP-SCANID.json</code>, with mode <code>0600</code>, sync and atomic replacement. A crash can leave a hidden <code>.lasa-*.tmp</code> file; it is not a valid completed snapshot and is ignored by report retention. A write or retention failure is fatal to the daemon, making storage failures visible to its supervisor.</p>
 <p>Send SIGTERM or SIGINT for graceful shutdown. An in-progress scan receives cancellation and can persist a partial result before exit. Kernel filesystem operations cannot always be interrupted promptly; configure your supervisor's stop timeout accordingly. There is no concurrent web server or remote management listener.</p>
 <h2 id="retention-and-capacity">Retention and capacity</h2>
-<p>Retention limits snapshot <strong>count</strong>. At 96 reports and a 15-minute delay, the nominal window is about a day plus scan time, but timing, restarts and errors change it. Large reports can consume substantial storage. Set disk monitoring and an external byte/time retention policy if required; LASA does not promise a total disk quota.</p>
+<p>Retention limits snapshot <strong>count</strong>. At 96 reports and a 15-minute delay, the nominal window is about a day plus scan time, but timing, restarts and errors change it. Large reports can consume substantial storage. Set disk monitoring and an external byte/time retention policy if required; Use <code>--retention-bytes</code> to add a managed-snapshot byte quota and <code>--min-free-bytes</code> to reserve space before the next report. Neither is a quota on unrelated files or a guarantee against concurrent disk exhaustion.</p>
 <p>Only correctly named, scanner-owned regular snapshots are removed by built-in retention. Unrelated files, symlinks, locks and leftover temporary files are retained. Do not use the state directory as a general-purpose document directory. Backups and copied reports need their own access and deletion policies.</p>
 <h2 id="systemd">systemd</h2>
 <p>Two example units are supplied:</p>
@@ -453,6 +482,11 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 <p><code>lasa scan --profile sensor --sensor-duration 5s</code> requests static scanning plus a finite metadata event window. <code>lasa daemon --profile sensor</code> repeats those windows on its scan schedule. This is not continuous observation: gaps exist between windows. Ring-buffer, event-retention and namespace-correlation limits appear in coverage and diagnostics. A failed attachment is not represented as successful runtime coverage.</p>
 <h2 id="operational-acceptance">Operational acceptance</h2>
 <p>Before a fleet rollout, verify useful unprivileged observations, expected privileged visibility if required, report file access, coverage policy, retention, graceful shutdown, alert delivery and the behavior of incomplete comparisons. Add representative Linux VM tests for your distributions, kernels, container runtimes and service manager. Preserve diagnostics in central ingestion so a missing permission cannot appear as a healthy host.</p>
+<h2 id="scheduling-inspections">Scheduling inspections</h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>lasa<span class="w"> </span>daemon<span class="w"> </span>--profile<span class="w"> </span>deep<span class="w"> </span>--inspect<span class="w"> </span>systemd,ssh,sudo,permissions,scheduler<span class="w">   </span>--state-dir<span class="w"> </span>/var/lib/lasa<span class="w"> </span>--interval<span class="w"> </span>15m<span class="w"> </span>--timeout<span class="w"> </span>2m<span class="w">   </span>--retention<span class="w"> </span><span class="m">96</span><span class="w"> </span>--retention-bytes<span class="w"> </span><span class="m">1073741824</span><span class="w"> </span>--min-free-bytes<span class="w"> </span><span class="m">67108864</span>
+</code></pre></div>
+<p>Review the <a href="../security-inspections/">expanded collection contract</a> and the required native providers before deployment. The example metadata-only systemd units do not automatically grant all optional inspection permissions or install native tools. Package checks additionally require a current local advisory database; schedule its refresh separately and monitor failures.</p>
+<p>A collector fault is isolated and recorded as incomplete coverage. Fatal persistence/retention failures stop the daemon with a specific error so its process supervisor can alert/restart it. Reports are not silently discarded to make a scan appear successful. Validate shutdown, disk pressure, retained-byte limits and restart behavior under your own workload.</p>
 
 
 

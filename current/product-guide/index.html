@@ -233,6 +233,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -271,6 +283,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -384,6 +402,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#effective-configuration-and-advisory-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Effective configuration and advisory inspection
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -413,7 +442,7 @@
 <li>It evaluates reviewed local rules, preserving unknown and conflicting evidence.</li>
 <li>It emits findings, supporting observations, conditional risk scenarios, coverage and diagnostics.</li>
 </ol>
-<p>There is no network reconnaissance or outbound discovery request. Local socket information is read from the kernel; LASA does not try connecting to each service. The optional sensor observes a finite event window and is requested explicitly through the sensor profile.</p>
+<p>There is no active network reconnaissance or direct outbound discovery request during a scan. Optional native providers and advisory management have the separate access contract below. Local socket information is read from the kernel; LASA does not try connecting to each service. The optional sensor observes a finite event window and is requested explicitly through the sensor profile.</p>
 <h2 id="facts-deductions-and-scenarios">Facts, deductions and scenarios</h2>
 <p>A fact might establish that a process owns a TCP listener or that a file has a particular permission mode. A deduction may associate a conventional management port with that process. A scenario explains a possible consequence <strong>if</strong> an attacker first obtains the necessary access or control.</p>
 <p>Those are different kinds of statements. A wildcard listener is potentially reachable outside loopback, but its internet reachability is unknown. An SSH authorized-key file with permissive metadata might still be rejected by SSH. A container-looking cgroup name is a hint rather than proof of a container runtime boundary. LASA includes these qualifications in the relevant finding.</p>
@@ -456,6 +485,9 @@
 <h2 id="where-the-product-fits">Where the product fits</h2>
 <p>Reports are usable on their own, in a local operations process, or by a future SecureObs ingestion service. LASA does not require a backend, a graph database or an always-running agent to perform a one-shot scan. It does not monitor activity continuously unless an operator arranges repeated sensor windows; scheduled windows can have observation gaps.</p>
 <p>See <a href="../data-and-privacy/">data and privacy</a>, <a href="../results/">result interpretation</a> and <a href="../compatibility/">compatibility</a> before deploying it fleet-wide.</p>
+<h2 id="effective-configuration-and-advisory-inspection">Effective configuration and advisory inspection</h2>
+<p>Use <code>--inspect</code> to add supported systemd, SSH, sudo, discretionary permissions, nftables, Docker-compatible runtime, package-advisory and scheduler checks. Modules emit evidence and coverage into the same report and finding workflow. These modules can read selected configuration/native-provider output beyond the default metadata sources; they do not run exploit tests or apply remediation.</p>
+<p>Start with <a href="../security-inspections/">security inspections</a>, prepare <a href="../package-advisories/">package advisories</a> if needed, and review <a href="../detection-coverage/">detection coverage</a>. Configuration changes and advisory data remain subject to their provider and freshness requirements. A larger enabled scope is not a guarantee that every security condition can be decided.</p>
 
 
 

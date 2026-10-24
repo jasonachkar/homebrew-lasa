@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lasa.secureobs.com/current/compatibility/">
       
       
-        <link rel="prev" href="../data-and-privacy/">
+        <link rel="prev" href="../detection-coverage/">
       
       
         <link rel="next" href="../secureobs/">
@@ -233,6 +233,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -271,6 +283,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -373,6 +391,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#inspection-provider-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspection provider requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-format-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package format availability
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -433,8 +473,8 @@
 <td>Implemented; conditional compromise remains explicit</td>
 </tr>
 <tr>
-<td>15 builtin rule definitions</td>
-<td>Tested; confirmed-exposure rule requires evidence static scans intentionally never fabricate</td>
+<td>33 builtin rule definitions</td>
+<td>Baseline and opt-in inspection rules; external-confirmation rules still require an independent source</td>
 </tr>
 <tr>
 <td>Active external exposure validation</td>
@@ -449,8 +489,8 @@
 <td>Compiled CO-RE object and feature-detecting loader; runtime support requires target-host validation</td>
 </tr>
 <tr>
-<td>Effective write access for arbitrary identities</td>
-<td>Not asserted; permission candidates retain ACL/mount/identity uncertainty</td>
+<td>Identity-aware discretionary access</td>
+<td>Optional local-account/ACL/traversal analysis; LSM, immutable flags and external identity policy remain qualified</td>
 </tr>
 <tr>
 <td>Remote/cloud host inventory</td>
@@ -468,9 +508,66 @@
 <p>Container detection uses cgroup naming hints. Custom runtimes, altered cgroup layouts and ambiguous host-style mount names can defeat or confuse those hints. Reports qualify them. A container profile acknowledges limited visibility; it does not grant access or escape the container.</p>
 <h2 id="filesystem-and-service-boundaries">Filesystem and service boundaries</h2>
 <p>The default scope omits arbitrary homes, deep directory trees, hidden service paths and symlink targets. Scoped metadata is not proof a service will load a file. Sudo/SSH acceptance policies, systemd activation, ACL interpretation, supplementary-group membership and mount/execution options can affect impact.</p>
-<p>LASA does not read service unit contents, PATH environments, private keys or application configuration contents. Conventional search-directory and service filename checks therefore remain conditional. Kernel LSM presence is contextual evidence, not proof of a policy's effectiveness.</p>
+<p>The default scan does not read service configuration contents or process environments. Optional inspections add effective native service/SSH/sudo policy, selected cron configuration, local identities, runtime settings and package data. See <a href="../security-inspections/">security inspections</a> and <a href="../data-and-privacy/">data access</a> for exact sources and retained fields. Kernel LSM presence remains contextual evidence, not proof of a policy's effectiveness.</p>
 <h2 id="completeness-scoring-and-exploitability">Completeness, scoring and exploitability</h2>
 <p>No scan provides complete host security coverage or guaranteed detection. Scores are prioritization values, not exploit probabilities. A high-confidence observation of a risky combination does not prove a successful compromise. The supported static workflow can be useful while collection is partial; strict mode and downstream acceptance policy determine whether that coverage meets your operational needs.</p>
+<h2 id="inspection-provider-requirements">Inspection provider requirements</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Provider/requirements</th>
+<th>Explicit boundaries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>systemd/timers</td>
+<td>Trusted root-owned <code>systemctl</code>, system manager access, JSON inventory output and selected effective properties</td>
+<td>Alternate roots, unsupported execution flags, unresolved command syntax and inaccessible managers remain unknown</td>
+</tr>
+<tr>
+<td>SSH</td>
+<td>Trusted root-owned OpenSSH <code>sshd</code> 9.3+ with configuration-only <code>-G</code>, readable configuration</td>
+<td>Older provider versions remain unsupported; no fallback to host-key validation</td>
+</tr>
+<tr>
+<td>sudo</td>
+<td>Trusted native <code>sudo</code> with supported long-list policy output; authorization for noninteractive queries</td>
+<td>External identities, unusual RunAs/output syntax and query denials remain explicit gaps</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td>Local passwd/group records, metadata/ACL access, supported <code>openat2</code> behavior and mount metadata</td>
+<td>No arbitrary NSS membership reconstruction, mandatory-policy proof, write attempt or universal remote-filesystem authorization model</td>
+</tr>
+<tr>
+<td>firewall</td>
+<td>Trusted <code>nft</code>, authorized ruleset access in the scanner network namespace</td>
+<td>Supported nftables subset only; named sets, transformations, other hooks and external filtering can make verdicts unknown</td>
+</tr>
+<tr>
+<td>containers</td>
+<td>Explicit Docker-compatible local UNIX API 1.24–1.50</td>
+<td>No native containerd gRPC, Kubernetes inventory or remote TCP API</td>
+</tr>
+<tr>
+<td>packages</td>
+<td>Trusted <code>dpkg-query</code> or <code>rpm</code>, exact-release advisory data and native version semantics</td>
+<td>Automatic feed retrieval targets Debian; other supported schemes require authenticated database import</td>
+</tr>
+<tr>
+<td>scheduler</td>
+<td>Readable supported cron/root spool sources; systemd manager for timer checks</td>
+<td>Complex shell programs, wrappers, anacron semantics and arbitrary startup mechanisms are not fully interpreted</td>
+</tr>
+</tbody>
+</table>
+<p>The scratch container image intentionally contains no host administration tools. Installing or mounting a native tool alone does not establish host visibility; manager sockets, namespaces, identity mapping and filesystem scope must also be correct. The scanner refuses tools with writable or non-root-controlled executable ancestry. Do not weaken these checks to remove diagnostics.</p>
+<p>Fixture and contract tests establish parser/rule behavior. Native provider, kernel and architecture compatibility must also be validated on the deployment targets. The maintainer VM harness automates that work from macOS or an authorized disposable Linux VM; an unexecuted matrix is not a verified support claim.</p>
+<h2 id="package-format-availability">Package format availability</h2>
+<p>Native DEB/APT, RPM/DNF/YUM/Zypper, Arch/Pacman and Alpine/APK repositories target Linux AMD64 and ARM64. Linux Homebrew and verified archives remain available deployment methods. Repository configuration is required before a stock package manager recognizes LASA. Formats do not imply default-distribution inclusion or support for every historical kernel/derivative.</p>
+<p>Packaging/protocol validation and scanner runtime validation are separate. Representative native package clients run in isolated container tests; full kernel/provider behavior requires the deployment-target matrix above. ARM64 cross-compilation and metadata verification do not substitute for native ARM64 kernel/provider testing. See <a href="../installation/">installation</a>.</p>
 
 
 
@@ -492,7 +589,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../data-and-privacy/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Collection, access and privacy">
+          <a href="../detection-coverage/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Detection coverage">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -502,7 +599,7 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Collection, access and privacy
+                Detection coverage
               </div>
             </div>
           </a>

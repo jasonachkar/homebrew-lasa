@@ -16,7 +16,7 @@
         <link rel="prev" href="../product-guide/">
       
       
-        <link rel="next" href="../cli-reference/">
+        <link rel="next" href="../security-inspections/">
       
       
         
@@ -233,6 +233,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -271,6 +283,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -330,10 +348,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apt-and-homebrew-packages" class="md-nav__link">
+  <a href="#configure-your-linux-package-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        APT and Homebrew packages
+        Configure your Linux package manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linux-homebrew" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux Homebrew
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-a-package-or-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remove a package or repository
       
     </span>
   </a>
@@ -438,20 +478,81 @@
 <h2 id="requirements">Requirements</h2>
 <p>Use Linux on AMD64 or ARM64. LASA uses <code>openat2</code> to constrain metadata paths; Linux 5.6 introduced this syscall, but kernel configuration, seccomp and container policy can still make it unavailable. Procfs must be mounted and the scanner's own metadata must be visible. No database, runtime control socket, API key, SecureObs account or outbound network access is required for scanning.</p>
 <p>Build with the supported Go 1.27.2 patch release. CGO is disabled for release binaries. A C compiler is needed only for race tests and a pinned Clang/libbpf toolchain only for regenerating the optional eBPF object. The object is already embedded in normal builds.</p>
-<h2 id="apt-and-homebrew-packages">APT and Homebrew packages</h2>
-<p>Install LASA from the signed APT repository on Debian/Ubuntu or the Linux Homebrew tap. Both methods select the package for your system's architecture.</p>
-<p>On Debian/Ubuntu Linux AMD64 or ARM64, the installer configures a repository-specific signing key, verifies its fingerprint and installs the package:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--proto<span class="w"> </span><span class="s1">'=https'</span><span class="w"> </span>--tlsv1.2<span class="w"> </span>-fsSLo<span class="w"> </span>install-lasa.sh<span class="w"> </span>https://lasa.secureobs.com/install-apt.sh
-bash<span class="w"> </span>install-lasa.sh
+<h2 id="configure-your-linux-package-manager">Configure your Linux package manager</h2>
+<p>LASA publishes its own signed repositories for Linux AMD64 and ARM64. Configure the repository once; subsequent installs and upgrades use your normal package manager. A stock machine does not know LASA's repository until this setup runs.</p>
+<p>Download the complete setup script over HTTPS before executing it:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--proto<span class="w"> </span><span class="s1">'=https'</span><span class="w"> </span>--tlsv1.2<span class="w"> </span>-fsSLo<span class="w"> </span>install-lasa.sh<span class="w"> </span>https://lasa.secureobs.com/install.sh
+sh<span class="w"> </span>install-lasa.sh
 lasa<span class="w"> </span>doctor
 </code></pre></div>
-<p>Review the downloaded installer according to your organization's policy. Initial trust comes from the HTTPS distribution site and its published signing fingerprint. After installation, use <code>sudo apt-get update</code> and <code>sudo apt-get install --only-upgrade lasa</code> for updates. To remove it, use <code>sudo apt-get remove lasa</code>; the repository source and keyring remain until you remove <code>/etc/apt/sources.list.d/lasa.list</code> and <code>/usr/share/keyrings/lasa-archive-keyring.gpg</code>.</p>
-<p>On Linux with Homebrew:</p>
+<p>Run these commands from a directory you own. The script uses root or sudo for repository/package changes, detects the available manager, verifies the pinned signing key and installs LASA. <code>sh install-lasa.sh --detect</code> prints the selected manager/architecture without configuring a repository. Review the downloaded script according to your organization's policy. Initial trust comes from the HTTPS site and its published key pins; do not bypass signature, checksum or TLS failures.</p>
+<table>
+<thead>
+<tr>
+<th>Linux family</th>
+<th>Repository / native package</th>
+<th>Install after setup</th>
+<th>Update</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debian, Ubuntu and compatible derivatives</td>
+<td>APT / DEB</td>
+<td><code>sudo apt install lasa</code></td>
+<td><code>sudo apt update &amp;&amp; sudo apt install --only-upgrade lasa</code></td>
+</tr>
+<tr>
+<td>Fedora, RHEL, Rocky, AlmaLinux, Oracle Linux, CentOS Stream</td>
+<td>RPM / DNF</td>
+<td><code>sudo dnf install lasa</code></td>
+<td><code>sudo dnf upgrade lasa</code></td>
+</tr>
+<tr>
+<td>Compatible systems using YUM</td>
+<td>RPM / YUM</td>
+<td><code>sudo yum install lasa</code></td>
+<td><code>sudo yum update lasa</code></td>
+</tr>
+<tr>
+<td>openSUSE / SUSE with compatible RPM support</td>
+<td>RPM / Zypper</td>
+<td><code>sudo zypper install lasa</code></td>
+<td><code>sudo zypper update lasa</code></td>
+</tr>
+<tr>
+<td>Arch Linux; compatible Arch Linux ARM targets</td>
+<td>Pacman</td>
+<td><code>sudo pacman -S lasa</code></td>
+<td><code>sudo pacman -Syu</code></td>
+</tr>
+<tr>
+<td>Alpine</td>
+<td>APK</td>
+<td><code>sudo apk add lasa</code></td>
+<td><code>sudo apk update &amp;&amp; sudo apk upgrade lasa</code></td>
+</tr>
+</tbody>
+</table>
+<p>These are LASA-owned repositories, separate from each distribution's default repositories. A package format being available does not establish kernel/provider compatibility for every derivative or historical release. Use a maintained operating system with the kernel requirements above; then check <code>lasa doctor</code> and <a href="../compatibility/">compatibility</a>. Gentoo, NixOS and other managers can use reviewed binary/source deployment; no official ebuild, Nixpkgs entry, AUR listing or distribution-maintainer endorsement is implied.</p>
+<p>The setup script refuses conflicting existing LASA configuration/key files. It retains the distribution's other repositories. Arch setup performs a full system upgrade before installation, following the rolling-release requirement to avoid partial upgrades. The commands select architecture automatically. Optional systemd units are examples only; no package starts a service, grants scanner privileges or runs a scan.</p>
+<p>For APT-only setup, the existing <code>https://lasa.secureobs.com/install-apt.sh</code> remains available. APT uses a repository-specific keyring and signed metadata. RPM repositories require both package and metadata signatures. Pacman verifies database and package signatures. APK packages and indexes use RSA/SHA-256 signatures with a separately pinned Alpine public key.</p>
+<h2 id="linux-homebrew">Linux Homebrew</h2>
 <div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>jasonachkar/lasa/lasa
 lasa<span class="w"> </span>doctor
 </code></pre></div>
-<p>The tap selects the architecture and verifies an exact archive checksum. Use <code>brew upgrade lasa</code> and <code>brew uninstall lasa</code>. Installing either package does not start a scanner or service. The DEB carries optional systemd examples under <code>/usr/share/doc/lasa/examples/</code>; follow the service-account guidance in <a href="../operations/">operations</a> before installing a unit. Removing a CLI package does not clean up separately configured services or saved reports.</p>
-<p>macOS can manage publishing but cannot run this Linux scanner. The Homebrew formula explicitly requires Linux. Native Windows/WinGet is not supported; WSL users can use the APT instructions inside a supported Linux distribution. No native macOS or Windows security coverage is implied.</p>
+<p>The formula selects the architecture and verifies an exact archive checksum. Use <code>brew upgrade lasa</code> and <code>brew uninstall lasa</code>.</p>
+<p>macOS can manage publishing but cannot run this Linux scanner. The Homebrew formula explicitly requires Linux. Native Windows/WinGet is not supported; WSL users can use their supported Linux distribution's package instructions. No native macOS or Windows security coverage is implied.</p>
+<h2 id="remove-a-package-or-repository">Remove a package or repository</h2>
+<p>Use <code>sudo apt remove lasa</code>, <code>sudo dnf remove lasa</code>, <code>sudo yum remove lasa</code>, <code>sudo zypper remove lasa</code>, <code>sudo pacman -R lasa</code>, or <code>sudo apk del lasa</code>. Stop any separately configured daemon first. Package removal retains reports, state and repository configuration.</p>
+<p>To stop receiving LASA packages, remove only the LASA-owned entries:</p>
+<ul>
+<li>APT: <code>/etc/apt/sources.list.d/lasa.list</code> and <code>/usr/share/keyrings/lasa-archive-keyring.gpg</code>.</li>
+<li>DNF/YUM: <code>/etc/yum.repos.d/lasa.repo</code>; Zypper: <code>/etc/zypp/repos.d/lasa.repo</code>. The public key file is <code>/etc/pki/rpm-gpg/RPM-GPG-KEY-lasa</code>; the imported RPM trust entry is shared RPM state, so review its fingerprint before removing it.</li>
+<li>Pacman: the <code>Include = /etc/pacman.d/lasa.conf</code> line and <code>/etc/pacman.d/lasa.conf</code>. Remove the specifically identified LASA key through <code>pacman-key</code> only after checking no other repository uses it.</li>
+<li>APK: the LASA URL line in <code>/etc/apk/repositories</code> and <code>/etc/apk/keys/lasa.rsa.pub</code>.</li>
+</ul>
+<p>Do not remove distribution-wide keyrings or unrelated repository files. Local reports and separately installed service units need their own retention/removal policy.</p>
 <h2 id="build-from-source">Build from source</h2>
 <div class="highlight"><pre><span></span><code>go<span class="w"> </span>version<span class="w">                         </span><span class="c1"># should report go1.27.2</span>
 make<span class="w"> </span>build
@@ -469,7 +570,7 @@ lasa<span class="w"> </span>scan
 <h2 id="verify-release-provenance">Verify release provenance</h2>
 <p>GitHub Actions releases carry a GitHub build attestation. Verify the downloaded checksum manifest using <code>gh attestation verify SHA256SUMS --repo jasonachkar/lasa</code>, then run <code>sha256sum --strict -c SHA256SUMS</code> in the directory containing all listed assets.</p>
 <p>Azure releases instead provide <code>SHA256SUMS.asc</code> and <code>release-signing-key.asc</code>. They use an OpenPGP signature by the APT signing key; this is not a GitHub OIDC build attestation. Import the public key into a dedicated verification keyring, confirm its full primary fingerprint against your organization's trusted LASA signing fingerprint, verify <code>gpg --verify SHA256SUMS.asc SHA256SUMS</code>, and check the manifest hashes before installing. A key downloaded alongside a binary is not independently trusted. A valid signature proves control of the signing key, not that the builder was uncompromised.</p>
-<p>APT installation verifies the signed repository metadata and package hashes automatically. Homebrew checks the archive hash pinned in its formula. Release provenance verification is an additional check for direct downloads.</p>
+<p>Native package managers verify the configured repository/package trust chain automatically. Homebrew checks the archive hash pinned in its formula. Release provenance verification is an additional check for direct downloads.</p>
 <h2 id="first-private-report">First private report</h2>
 <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-m<span class="w"> </span><span class="m">0700</span><span class="w"> </span>./reports
 lasa<span class="w"> </span>scan<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>./reports/first.report.json
@@ -528,13 +629,13 @@ lasa<span class="w"> </span>report<span class="w"> </span>--input<span class="w"
         
         
           
-          <a href="../cli-reference/" class="md-footer__link md-footer__link--next" aria-label="Next: CLI reference">
+          <a href="../security-inspections/" class="md-footer__link md-footer__link--next" aria-label="Next: Security inspections">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                CLI reference
+                Security inspections
               </div>
             </div>
             <div class="md-footer__button md-icon">

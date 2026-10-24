@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lasa.secureobs.com/current/cli-reference/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../package-advisories/">
       
       
         <link rel="next" href="../results/">
@@ -232,6 +232,18 @@
           </summary>
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
+              <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
               <li class="md-nav__item md-nav__item--active">
                 <a href="./" class="md-nav__link md-nav__link--active" aria-current="page">
                   <span class="md-ellipsis">CLI reference</span>
@@ -271,6 +283,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -417,6 +435,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#lasa-advisories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lasa advisories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-daemon-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional daemon limits
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -494,6 +534,51 @@ lasa<span class="w"> </span>scan<span class="w"> </span>--format<span class="w">
 <td><code>--sensor-duration</code></td>
 <td><code>3s</code></td>
 <td>Optional event window, 1ms–10m, only used by sensor profile</td>
+</tr>
+<tr>
+<td><code>--inspect</code></td>
+<td>none</td>
+<td>Opt-in modules or <code>all</code>; see security inspections</td>
+</tr>
+<tr>
+<td><code>--ssh-context</code></td>
+<td>root/localhost context</td>
+<td>Repeatable effective SSH context</td>
+</tr>
+<tr>
+<td><code>--network-source</code> / <code>--network-destination</code></td>
+<td>none</td>
+<td>IP literals for local nftables modeling</td>
+</tr>
+<tr>
+<td><code>--network-interface</code></td>
+<td>none</td>
+<td>Ingress interface for modeled packet</td>
+</tr>
+<tr>
+<td><code>--container-socket</code></td>
+<td><code>/run/docker.sock</code></td>
+<td>Explicit Docker-compatible UNIX endpoint</td>
+</tr>
+<tr>
+<td><code>--advisories</code></td>
+<td>none</td>
+<td>Local release-specific advisory database</td>
+</tr>
+<tr>
+<td><code>--advisory-max-age</code></td>
+<td><code>168h</code></td>
+<td>Additional cache age limit; own expiry always applies</td>
+</tr>
+<tr>
+<td><code>--max-inspection-items</code></td>
+<td><code>256</code></td>
+<td>Per-module work budget, 1–4096</td>
+</tr>
+<tr>
+<td><code>--inspection-command-timeout</code></td>
+<td><code>5s</code></td>
+<td>Each native-provider deadline, 1ms–1m</td>
 </tr>
 <tr>
 <td><code>--format</code></td>
@@ -630,6 +715,13 @@ lasa<span class="w"> </span>report<span class="w"> </span>--input<span class="w"
 <div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>daemon<span class="w"> </span>--state-dir<span class="w"> </span>./private-state<span class="w"> </span>--interval<span class="w"> </span>15m<span class="w"> </span>--retention<span class="w"> </span><span class="m">96</span>
 </code></pre></div>
 <p>The daemon runs scans sequentially, persists one JSON report at a time and logs snapshot status to stderr. It does not overlap scans or make remote API calls. Stop with SIGINT or SIGTERM; allow the in-progress scan and bounded filesystem operations time to finish. Persistence, retention or fatal scan failures terminate the daemon with a diagnostic so a supervisor can alert and restart it.</p>
+<h2 id="lasa-advisories"><code>lasa advisories</code></h2>
+<div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>advisories<span class="w"> </span>update<span class="w"> </span>--release<span class="w"> </span>trixie<span class="w"> </span>--output<span class="w"> </span>advisories.json
+lasa<span class="w"> </span>advisories<span class="w"> </span>import<span class="w"> </span>--input<span class="w"> </span>authenticated-vendor.json<span class="w"> </span>--output<span class="w"> </span>advisories.json
+</code></pre></div>
+<p>Update is an explicit verified-HTTPS download from the official Debian tracker. Import validates a local <code>lasa.advisories/v1</code> file; it does not authenticate arbitrary claimed provenance. Both write private atomic files and leave the prior output intact on validation/download failure. See <a href="../package-advisories/">package advisories</a>.</p>
+<h2 id="additional-daemon-limits">Additional daemon limits</h2>
+<p><code>--retention-bytes</code> defaults to <code>0</code> (disabled) and limits managed snapshot bytes in addition to the count limit. <code>--min-free-bytes</code> defaults to 16,777,216 (16MiB) and reserves free space after the next report. The free-space check is advisory; a concurrent writer can still cause an atomic-write failure. A newest snapshot larger than its quota produces an error rather than silently deleting every report. Inspection flags have the same meaning in <code>scan</code> and <code>daemon</code>.</p>
 
 
 
@@ -651,7 +743,7 @@ lasa<span class="w"> </span>report<span class="w"> </span>--input<span class="w"
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Install LASA">
+          <a href="../package-advisories/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Package advisories">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -661,7 +753,7 @@ lasa<span class="w"> </span>report<span class="w"> </span>--input<span class="w"
                 Previous
               </span>
               <div class="md-ellipsis">
-                Install LASA
+                Package advisories
               </div>
             </div>
           </a>

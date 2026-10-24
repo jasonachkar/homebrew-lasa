@@ -231,6 +231,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -269,6 +281,12 @@
               <li class="md-nav__item">
                 <a href="../data-and-privacy/" class="md-nav__link">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -368,7 +386,7 @@
 
 <h1 id="secureobs-and-local-report-ingestion">SecureObs and local report ingestion</h1>
 <h2 id="current-integration-boundary">Current integration boundary</h2>
-<p>LASA is independently usable. It requires no SecureObs credentials, APIs, database or frontend. The integration artifact is the local JSON snapshot with schema <code>lasa.report/v1</code>. No automatic upload or background remote transmission is implemented.</p>
+<p>LASA is independently usable. It requires no SecureObs credentials, APIs, database or frontend. The integration artifact is the local JSON snapshot with schema <code>lasa.report/v2</code>. No automatic upload or background remote transmission is implemented.</p>
 <p>A SecureObs-side adapter can ingest authorized reports from a controlled file transfer, deployment agent or ingestion service. That adapter owns authentication, transport, tenant authorization, encryption, retention and audit logging. Never infer authorization from the report's host ID alone.</p>
 <h2 id="recommended-ingestion-contract">Recommended ingestion contract</h2>
 <p>Preserve <code>schema</code>, <code>scanner_version</code>, <code>scan_id</code>, scan times, profile and host identity. Treat <code>scan_id</code> as the execution identity and the finding fingerprint as cross-scan issue identity. Preserve evidence references, observation state, provenance, confidence, exposure, prerequisites, scoring version and contributions, suppressions, coverage and diagnostics.</p>
@@ -377,7 +395,8 @@
 <h2 id="safe-ingestion">Safe ingestion</h2>
 <p>Validate size and schema before storage. Restrict nesting and array counts, reject unsupported versions, preserve referential integrity and escape all displayed strings. JSON is data, never executable queries or template code. Do not make network requests to socket addresses, file paths, schema URIs or other strings found in a report.</p>
 <p>For downstream code scanning integrations, SARIF exports logical runtime locations. GitHub repository views can have limited support for those locations; do not invent source-file coordinates to make a host finding appear inline.</p>
-<p>The public <a href="../assets/schemas/report-v1.schema.json">report JSON schema</a> documents the exported field contract. Preserve schema versioning independently of the executable version.</p>
+<p>The public <a href="../assets/schemas/report-v2.schema.json">report JSON schema</a> documents the exported field contract. Preserve schema versioning independently of the executable version.</p>
+<p>Ingestion must recognize v2 inspection assets and module/scope metadata. Legacy v1 remains readable by the current CLI, but older consumers are not automatically v2-compatible. Preserve unknowns, actual evidence dependencies, surface-change truncation and advisory freshness; do not convert lost visibility into resolution.</p>
 
 
 

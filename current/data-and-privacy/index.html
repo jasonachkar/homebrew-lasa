@@ -16,7 +16,7 @@
         <link rel="prev" href="../troubleshooting/">
       
       
-        <link rel="next" href="../compatibility/">
+        <link rel="next" href="../detection-coverage/">
       
       
         
@@ -233,6 +233,18 @@
           <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
             
               <li class="md-nav__item">
+                <a href="../security-inspections/" class="md-nav__link">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
                 <a href="../cli-reference/" class="md-nav__link">
                   <span class="md-ellipsis">CLI reference</span>
                 </a>
@@ -271,6 +283,12 @@
               <li class="md-nav__item md-nav__item--active">
                 <a href="./" class="md-nav__link md-nav__link--active" aria-current="page">
                   <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
                 </a>
               </li>
             
@@ -341,6 +359,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#optional-inspection-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional inspection access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-lasa-does-not-collect-or-do" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -403,7 +432,7 @@
 
 <h1 id="data-access-privacy-and-storage">Data access, privacy and storage</h1>
 <h2 id="data-collection-contract">Data collection contract</h2>
-<p>LASA reads local Linux metadata through a fixed set of collectors. It does not recursively search the entire disk by default. Explicit roots expand only filesystem metadata scope, not permission to read their file contents.</p>
+<p>The default scan reads local Linux metadata through a fixed set of collectors. Optional <code>--inspect</code> modules expand the collection contract explicitly, as described below. It does not recursively search the entire disk by default. Explicit roots expand only filesystem metadata scope, not permission to read their file contents.</p>
 <table>
 <thead>
 <tr>
@@ -505,18 +534,83 @@
 /run/containerd/containerd.sock
 </code></pre></div>
 <p>Traversal is bounded to two directory levels under each root, a global entry budget and a deadline. Symlinks are excluded, including ordinary distribution alternatives links. A parent symlink can also make an explicit root inaccessible; choose its canonical target deliberately instead of expecting automatic traversal. User home directories are not recursively enumerated. Add a specific authorized-key directory only when it is part of the intended scope.</p>
+<h2 id="optional-inspection-access">Optional inspection access</h2>
+<p>Enable these sources only through the corresponding <code>--inspect</code> module. Their scope is independent of <code>--roots</code>. The default scan does not query them.</p>
+<table>
+<thead>
+<tr>
+<th>Module/source</th>
+<th>Data accessed</th>
+<th>Retained data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local <code>/etc/passwd</code> and <code>/etc/group</code></td>
+<td>Account/group records, including fields that must be discarded</td>
+<td>Selected names, numeric IDs and group relationships needed for findings; password/GECOS fields are discarded</td>
+</tr>
+<tr>
+<td>Systemd system manager</td>
+<td>Loaded/enabled service inventory and selected effective service/timer properties</td>
+<td>Unit identity/state, selected settings, executable/script/environment-file paths and supporting permission metadata</td>
+</tr>
+<tr>
+<td>Configuration-only <code>sshd -G -C</code></td>
+<td>Native SSH configuration resolution, including configured includes and the chosen connection context</td>
+<td>Selected effective authentication/permission settings and the recorded context; LASA does not request host-key validation</td>
+</tr>
+<tr>
+<td>Native <code>sudo -n -ll -U</code></td>
+<td>Effective policy provider output for local identities</td>
+<td>Selected root grants and command paths; general policy text is discarded</td>
+</tr>
+<tr>
+<td>Explicit execution/configuration paths</td>
+<td>Metadata and ACLs along supported path resolutions, including normal symlink targets</td>
+<td>Named discretionary writer candidates and selected component metadata; target file contents are not opened by LASA</td>
+</tr>
+<tr>
+<td>Native nftables query</td>
+<td>JSON ruleset in the scanner network namespace</td>
+<td>A supported-model verdict and packet context; no packet payloads or active probe</td>
+</tr>
+<tr>
+<td>Selected Docker-compatible UNIX socket</td>
+<td>Version, container inventory and container inspect responses through GET requests</td>
+<td>Selected privilege, namespace, mount, capability and confinement settings; container IDs are pseudonymized</td>
+</tr>
+<tr>
+<td>Native package database and ownership queries</td>
+<td>Installed package/source versions and selected executable ownership</td>
+<td>Inventory count, advisory-relevant versions and selected process relationships</td>
+</tr>
+<tr>
+<td>Explicit local advisory file</td>
+<td>Vendor-derived advisory ranges and source/freshness metadata</td>
+<td>Relevant advisory identifiers, fixed versions, severity and provenance; not the entire cache</td>
+</tr>
+<tr>
+<td>Cron/root spool files and systemd timers</td>
+<td>Supported schedules and command configuration</td>
+<td>Source/line identity, selected execution/search paths, user and permissions; command arguments and unrelated environment values are discarded</td>
+</tr>
+</tbody>
+</table>
+<p>Native systemd properties and runtime inspect responses can include command arguments, environment values, labels or other sensitive fields in transient memory. LASA selects the fields above and does not persist raw responses, full command arguments, environment dumps or raw configuration files. This is a broader access choice than metadata-only scanning; it is not a promise that sensitive fields never enter memory.</p>
+<p>Native tools and local management daemons are trusted parts of the inspected system. Their configured includes, identity providers and ordinary audit logging follow host policy. A native sudo/NSS lookup can contact an organization identity service; a read-only management query can cause ordinary daemon/audit logging. LASA does not change enforcement settings or execute remediation. It does not request Docker mutations, remote runtime endpoints or host-key validation.</p>
 <h2 id="what-lasa-does-not-collect-or-do">What LASA does not collect or do</h2>
 <ul>
-<li>No <code>/proc/PID/environ</code>, full argv/cmdline, credential-store or private-key contents, application log files or arbitrary file contents.</li>
+<li>The default scan does not read <code>/proc/PID/environ</code>, full argv/cmdline, credential-store/private-key contents, application logs or arbitrary application contents. Optional inspection access and transient native/API data are described above. LASA does not directly request <code>/etc/shadow</code>, private-key bodies or <code>/proc/PID/environ</code>.</li>
 <li>No network payloads, packet capture, authentication attempts, active vulnerability probes or exploitation.</li>
-<li>No Docker/containerd API requests or control socket connection for baseline analysis.</li>
+<li>No runtime API requests or control-socket connection for baseline analysis. Only the explicit containers module uses its selected Docker-compatible endpoint.</li>
 <li>No automatic remediation, host policy modification, privilege escalation or installation-time kernel enforcement.</li>
-<li>No remote telemetry, report upload, SecureObs authentication or background outbound connectivity.</li>
+<li>No remote telemetry, report upload or SecureObs authentication. Scans make no direct outbound IP advisory/API requests. <code>lasa advisories update</code> is a separate explicit HTTPS download; native identity-provider behavior follows host policy.</li>
 </ul>
 <p>Metadata can still be sensitive. Executable paths, process names, UNIX socket paths, interfaces, mount paths, identity numbers and service names reveal system structure. A command name can itself contain a sensitive string chosen by its owner. Omitting arguments and hashing selected identifiers is not a guarantee of anonymity. Review report handling under your own data classification policy.</p>
 <h2 id="what-is-stored">What is stored</h2>
-<p>A one-shot terminal scan does not create a hidden report database. <code>--output</code> stores the selected report. JSON retains the complete snapshot: metadata entities, observations, provenance graph, findings, evaluation outcomes, coverage, diagnostics and optional runtime events/drop counts. HTML retains a readable representation of evidence, findings and errors. SARIF retains finding-level information and stable fingerprints.</p>
-<p>The daemon creates a private state directory, an exclusive lock file and timestamped JSON snapshots. Retention is by <strong>snapshot count</strong>, not days or byte quota. Only scanner-named regular snapshot files owned by the daemon user are retention candidates. Unrelated files and symlinks are not deleted. Temporary files from interrupted writes are not treated as reports or automatically interpreted.</p>
+<p>A one-shot terminal scan does not create a hidden report database. <code>--output</code> stores the selected report. JSON schema v2 retains the complete snapshot, enabled inspection modules, requested metadata roots, scope fingerprint and inspection assets: metadata entities, observations, provenance graph, findings, evaluation outcomes, coverage, diagnostics and optional runtime events/drop counts. HTML retains a readable representation of evidence, findings and errors. SARIF retains finding-level information and stable fingerprints.</p>
+<p>The daemon creates a private state directory, an exclusive lock file and timestamped JSON snapshots. Retention is bounded by <strong>snapshot count</strong> and an optional <code>--retention-bytes</code> quota for managed snapshots. It is not time-based retention or a quota on unrelated files. The daemon also checks a configured free-space reserve before persisting a report. Only scanner-named regular snapshot files owned by the daemon user are retention candidates. Unrelated files and symlinks are not deleted. Temporary files from interrupted writes are not treated as reports or automatically interpreted.</p>
 <h2 id="permissions-and-exposure">Permissions and exposure</h2>
 <p>New output files use mode <code>0600</code>; newly created state directories use <code>0700</code>. Report writes use an exclusive temporary file, sync and atomic rename. Symlink paths and non-regular output targets are rejected. These protections do not defend against a compromised root user, a hostile kernel or a user who subsequently copies a report into a public location.</p>
 <p>Terminal rendering escapes control characters. HTML uses escaped output and no remote resources. JSON must be treated as untrusted input by every downstream renderer. A stable fingerprint is a correlation identifier, not an authentication signature or an encryption mechanism.</p>
@@ -560,13 +654,13 @@
         
         
           
-          <a href="../compatibility/" class="md-footer__link md-footer__link--next" aria-label="Next: Compatibility and limits">
+          <a href="../detection-coverage/" class="md-footer__link md-footer__link--next" aria-label="Next: Detection coverage">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Compatibility and limits
+                Detection coverage
               </div>
             </div>
             <div class="md-footer__button md-icon">
