@@ -569,10 +569,7 @@
 </table>
 <p>The scanner does not automatically upgrade native tools, change firewall policy, reset runtime permissions or elevate to make a diagnostic disappear. See <a href="../security-inspections/">security inspections</a> for the exact provider requirements.</p>
 <h2 id="package-manager-installation">Package-manager installation</h2>
-<p>If APT reports <code>Unable to locate package lasa</code>, or another manager reports no matching package, enable LASA's signed repository using <a href="../installation/">installation</a>. <code>apt install</code> cannot find a package in an unconfigured repository. Run the setup script only after the repository has been published; a website being available does not establish that a package release completed.</p>
-<p>If a repository/index URL returns 404, check the source URL, architecture, release/publishing status and HTTPS certificate. The generated <code>https://lasa.secureobs.com/distribution.json</code> identifies the published native formats/version. During a new deployment, stale CDN caches can briefly disagree; retry after propagation rather than disabling verification.</p>
-<p>Key fingerprint/hash mismatches, invalid metadata signatures, missing package signatures and package-hash errors are fatal trust failures. Retain the diagnostic and expected fingerprint, check proxy/cache behavior and contact your repository administrator. Do not use <code>--nogpgcheck</code>, <code>--allow-untrusted</code>, insecure TLS or a replacement key from an unverified message. The setup script stops at conflicting LASA-owned configuration files so an administrator can review ownership.</p>
-<p>The Arch setup performs a full upgrade to avoid partial upgrades. Package installation does not start a scanner. If an installed binary fails <code>lasa doctor</code>, inspect kernel/syscall/seccomp/procfs support separately from package availability. See <a href="../compatibility/">compatibility</a>.</p>
+<p>If the setup script or a repository URL returns HTTP 404, LASA's signed packages are pending their first public release. Package managers will report that they cannot find LASA until its repository is published and configured. If you have access to the source repository, follow the <a href="../installation/#build-from-source">Linux source build instructions</a>.</p>
 
 
 
