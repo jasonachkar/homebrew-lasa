@@ -16,3 +16,21 @@ Description: Scoped read-only Linux attack surface analyzer
  Requires Linux openat2 support (normally kernel 5.6+) and visible procfs.
  No service is enabled and no scan runs during installation.
 
+Package: lasa
+Version: 0.1.2
+Architecture: amd64
+Maintainer: Jason Achkar Diab <83395276+jasonachkar@users.noreply.github.com>
+Installed-Size: 7924
+Filename: pool/main/l/lasa/lasa_0.1.2_amd64.deb
+Size: 2681938
+MD5sum: 1c72ba611b03a8c58b41d1f352c5cb9a
+SHA1: b8c8a0adcd2f24ec0769b62ae76fffeb64f03b28
+SHA256: b903ded62127cc7c13567f6e63655fdbd44ad785814929f0d1872fde3bd3aa91
+Section: utils
+Priority: optional
+Homepage: https://github.com/jasonachkar/lasa
+Description: Scoped read-only Linux attack surface analyzer
+ Collects local Linux metadata and reports evidence-backed conditional risks.
+ Requires Linux openat2 support (normally kernel 5.6+) and visible procfs.
+ No service is enabled and no scan runs during installation.
+
