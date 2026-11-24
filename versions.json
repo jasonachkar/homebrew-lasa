@@ -3,7 +3,13 @@
     "version": "current",
     "title": "Current documentation",
     "aliases": [
-      "preview",
+      "preview"
+    ]
+  },
+  {
+    "version": "0.1.1",
+    "title": "0.1.1",
+    "aliases": [
       "latest"
     ]
   }
