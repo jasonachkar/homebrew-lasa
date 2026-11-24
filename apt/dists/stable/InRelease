@@ -1,0 +1,45 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Acquire-By-Hash: yes
+Architectures: amd64 arm64
+Codename: stable
+Components: main
+Date: Tue, 24 Nov 2026 21:08:58 +0000
+Label: LASA
+Origin: LASA
+Suite: stable
+MD5Sum:
+ efd5048125ddaeae99405d6b4347cd9a              726 main/binary-amd64/Packages
+ 1f79c74dfac5dacc9717f3e55044be88              513 main/binary-amd64/Packages.gz
+ 09c49f16da29f7b8ed85ae4d9147a17c              726 main/binary-arm64/Packages
+ 7f78c999d60b4de44681183693f5916f              513 main/binary-arm64/Packages.gz
+SHA1:
+ b4e3f35b597f430612b0f026a99d64020b436e70              726 main/binary-amd64/Packages
+ 219f0f9d7e14966649bdb8ede85a2e4d43d1b524              513 main/binary-amd64/Packages.gz
+ 3e58f90000b0c3565d6922948be6cc4d3e04eee2              726 main/binary-arm64/Packages
+ 6d3dd3a949a06fe70529d845d1d2af6bf16d1d97              513 main/binary-arm64/Packages.gz
+SHA256:
+ d7f15126f801997179dc63590b7cee64073049e810a4c4f4bdb4a8789835addf              726 main/binary-amd64/Packages
+ 3990a257e069998b2a46e5d89c1271a07a2869796fb7187113f88e9a5cbcdc4b              513 main/binary-amd64/Packages.gz
+ 04f07454519b6f954fe22105cb523ef8452f1e7851772139f2042691c7dd5ad5              726 main/binary-arm64/Packages
+ dce155d016e909739f32b7e0c64ca9f478db6b21e2a3834ba12c5946f2395479              513 main/binary-arm64/Packages.gz
+SHA512:
+ 1b5b2e98f261510c77b88d66eb7ac1a9259e6449d07f934b75754387dcba9d672582b69881209dbca521c3844cb281abb44d396ffdaf40648d7b2aa4564afe44              726 main/binary-amd64/Packages
+ f53bb5df0ac0584cf957e6ee2442e37f78905d3f131fa621859729461eba31c5e3aa683d44b1680cd0ce751fdfbeab30e45a1f51ea277282bad70f732ea40b18              513 main/binary-amd64/Packages.gz
+ 7da07100de1e91309591aa4495c9f9e7aaf66f6fd58f0b90f282940214012e6ce36344b806c29aa00d595d41be161b46b7619b0026ac8d822f9142f000fd0b30              726 main/binary-arm64/Packages
+ 39995ab8f8de09342958568b21ff17adc630a3a19d9dbb9c567975aa3bf8812c1b8cfa2273ed1268fc3ac1b604ea6fd0b647588c166ec54624f5566f12c681b2              513 main/binary-arm64/Packages.gz
+-----BEGIN PGP SIGNATURE-----
+
+iQHPBAEBCAA5FiEEk8l0BddJ3y1G2APdWm3x0hKjTKQFAmsF/OobFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMCwzAAoJEFpt8dISo0ykDIwL/1cWOkHbHHCleTQUpOS/
+dr0ftCAfHu9kkjB15awVH8YB0QKRc5xtUVJAHtQws/dFCaXyAu/ZLt73c1xuHOfb
+qafIqnAJB/xTVBvhAYSSoUAZHpR7X8LWuXyPvK/v+L/URXMOMj4klWjXcGXLICTV
+TbEQYwYFICGnbFcPjsWU28tFBsWLyJWwB7JM93fIihUtDVN6Wpk82rF920tJ8Fvl
+1k3X/KXQJ2ZcvQ7kw46F3T6qrcj/+PDT+s80l3WDSNr8QZq7+rsqjSQzxKVvzMpy
+mTKp8QB6PyvVSHtn0LMV6LWAeyNBF9E89KiE/uEl6N7RAFK51ipcqZgh1RVxwvPf
+h8veaoTUEGjN07RJygMSPSyb1/WW39Gfr0mtDvkHamQMfN8vjJe4y2ZVLz+SJQCW
+ZtVL4LJiewiB4Gz4aKXlcUHxvBmMbkHA3l9Iie6/PErYWiPj2atakmao2uSErte2
+lDpMc1ul26Q7+C3LO1vPltretEprFVtzMQZS3kByLaaZNQ==
+=SZG2
+-----END PGP SIGNATURE-----

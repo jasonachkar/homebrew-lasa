@@ -1,0 +1,18 @@
+Package: lasa
+Version: 0.1.1
+Architecture: arm64
+Maintainer: Jason Achkar Diab <83395276+jasonachkar@users.noreply.github.com>
+Installed-Size: 7396
+Filename: pool/main/l/lasa/lasa_0.1.1_arm64.deb
+Size: 2361862
+MD5sum: 9aea893b85184b4555427f3d914cc882
+SHA1: 4cd9af56955f03c2c890e6b0613a86da46ed1b59
+SHA256: 7d6c474eee75adf6f26f041e2f631d25b6295d73618f784afdb50add77d7cdad
+Section: utils
+Priority: optional
+Homepage: https://github.com/jasonachkar/lasa
+Description: Scoped read-only Linux attack surface analyzer
+ Collects local Linux metadata and reports evidence-backed conditional risks.
+ Requires Linux openat2 support (normally kernel 5.6+) and visible procfs.
+ No service is enabled and no scan runs during installation.
+
