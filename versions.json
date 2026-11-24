@@ -1,10 +1,5 @@
 [
   {
-    "version": "current",
-    "title": "Current documentation",
-    "aliases": []
-  },
-  {
     "version": "preview",
     "title": "Pre-release preview",
     "aliases": []
