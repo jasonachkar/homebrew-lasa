@@ -359,6 +359,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#linux-homebrew" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux Homebrew
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-a-package-or-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remove a package or repository
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#build-from-source" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -457,9 +479,24 @@
 <p>Use Linux on AMD64 or ARM64. LASA uses <code>openat2</code> to constrain metadata paths; Linux 5.6 introduced this syscall, but kernel configuration, seccomp and container policy can still make it unavailable. Procfs must be mounted and the scanner's own metadata must be visible. No database, runtime control socket, API key, SecureObs account or outbound network access is required for scanning.</p>
 <p>Build with the latest supported patch of the Go version required by your checkout's <code>go.mod</code>. CGO is disabled for release binaries. A C compiler is needed only for race tests and a pinned Clang/libbpf toolchain only for regenerating the optional eBPF object. The object is already embedded in normal builds.</p>
 <h2 id="configure-your-linux-package-manager">Configure your Linux package manager</h2>
-<p>LASA's signed Linux packages and Homebrew tap are pending their first public release. The setup script and package repositories become available when that release is published. Until then, users with access to the LASA source repository can <a href="#build-from-source">build from source</a> on Linux AMD64 or ARM64.</p>
+<p>LASA publishes a signed APT repository for Debian and Ubuntu on AMD64 and ARM64. Configure the repository once. Subsequent installs and upgrades use APT.</p>
+<p>Download the setup script over HTTPS before running it with Bash.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--proto<span class="w"> </span><span class="s1">'=https'</span><span class="w"> </span>--tlsv1.2<span class="w"> </span>-fsSLo<span class="w"> </span>install-lasa.sh<span class="w"> </span>https://lasa.secureobs.com/install-apt.sh<span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span>bash<span class="w"> </span>install-lasa.sh<span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span>lasa<span class="w"> </span>doctor
+</code></pre></div>
+<p>The script verifies the pinned signing key, adds a repository-specific keyring and installs LASA using root or sudo. Review the downloaded script according to your organization's policy. To update LASA, run <code>sudo apt-get update</code> followed by <code>sudo apt-get install --only-upgrade lasa</code>. Installing LASA leaves scanning and service setup to the operator.</p>
+<p>The published release offers APT and Linux Homebrew. For other Linux distributions, use a verified release binary or <a href="#build-from-source">build from source</a>.</p>
+<h2 id="linux-homebrew">Linux Homebrew</h2>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>jasonachkar/lasa/lasa
+lasa<span class="w"> </span>doctor
+</code></pre></div>
+<p>The formula selects the architecture and verifies an exact archive checksum. Use <code>brew upgrade lasa</code> and <code>brew uninstall lasa</code>.</p>
+<p>macOS can manage publishing but cannot run this Linux scanner. The Homebrew formula explicitly requires Linux. Native Windows/WinGet is not supported; WSL users can use their supported Linux distribution's package instructions. No native macOS or Windows security coverage is implied.</p>
+<h2 id="remove-a-package-or-repository">Remove a package or repository</h2>
+<p>Stop any separately configured daemon first. To remove LASA, use <code>sudo apt-get remove lasa</code> or <code>brew uninstall lasa</code>. Package removal retains reports and state.</p>
+<p>To stop receiving LASA packages through APT, remove <code>/etc/apt/sources.list.d/lasa.list</code> and <code>/usr/share/keyrings/lasa-archive-keyring.gpg</code>.</p>
 <h2 id="build-from-source">Build from source</h2>
-<p>Run these commands from your LASA source checkout on Linux.</p>
 <div class="highlight"><pre><span></span><code>go<span class="w"> </span>version
 make<span class="w"> </span>build
 ./bin/lasa<span class="w"> </span>version
@@ -472,10 +509,10 @@ make<span class="w"> </span>build
 lasa<span class="w"> </span>doctor
 lasa<span class="w"> </span>scan
 </code></pre></div>
-<p>This command installs the binary; the scanner itself never invokes sudo. Do not make the binary SUID or assign broad file capabilities to it. When release downloads become available, verify checksums and release provenance before installation.</p>
+<p>This command installs the binary; the scanner itself never invokes sudo. Do not make the binary SUID or assign broad file capabilities to it. For direct downloads, verify checksums and release provenance before installation.</p>
 <h2 id="verify-release-provenance">Verify release provenance</h2>
 <p>GitHub Actions releases carry a GitHub build attestation. Verify the downloaded checksum manifest using <code>gh attestation verify SHA256SUMS --repo jasonachkar/lasa</code>, then run <code>sha256sum --strict -c SHA256SUMS</code> in the directory containing all listed assets.</p>
-<p>Azure releases instead provide <code>SHA256SUMS.asc</code> and <code>release-signing-key.asc</code>. They use an OpenPGP signature by the APT signing key; this is not a GitHub OIDC build attestation. Import the public key into a dedicated verification keyring, confirm its full primary fingerprint against your organization's trusted LASA signing fingerprint, verify <code>gpg --verify SHA256SUMS.asc SHA256SUMS</code>, and check the manifest hashes before installing. A key downloaded alongside a binary is not independently trusted. A valid signature proves control of the signing key, not that the builder was uncompromised.</p>
+<p>Locally built and Azure releases instead provide <code>SHA256SUMS.asc</code> and <code>release-signing-key.asc</code>. They use an OpenPGP signature by the APT signing key; this is not a GitHub OIDC build attestation. Import the public key into a dedicated verification keyring, confirm its full primary fingerprint against your organization's trusted LASA signing fingerprint, verify <code>gpg --verify SHA256SUMS.asc SHA256SUMS</code>, and check the manifest hashes before installing. A key downloaded alongside a binary is not independently trusted. A valid signature proves control of the signing key, not that the builder was uncompromised.</p>
 <p>Native package managers verify the configured repository/package trust chain automatically. Homebrew checks the archive hash pinned in its formula. Release provenance verification is an additional check for direct downloads.</p>
 <h2 id="first-private-report">First private report</h2>
 <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-m<span class="w"> </span><span class="m">0700</span><span class="w"> </span>./reports

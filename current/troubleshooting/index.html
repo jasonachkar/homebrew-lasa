@@ -569,7 +569,9 @@
 </table>
 <p>The scanner does not automatically upgrade native tools, change firewall policy, reset runtime permissions or elevate to make a diagnostic disappear. See <a href="../security-inspections/">security inspections</a> for the exact provider requirements.</p>
 <h2 id="package-manager-installation">Package-manager installation</h2>
-<p>If the setup script or a repository URL returns HTTP 404, LASA's signed packages are pending their first public release. Package managers will report that they cannot find LASA until its repository is published and configured. If you have access to the source repository, follow the <a href="../installation/#build-from-source">Linux source build instructions</a>.</p>
+<p>If APT reports <code>Unable to locate package lasa</code>, follow the <a href="../installation/#configure-your-linux-package-manager">installation guide</a> to configure the LASA repository and install the package. Use the guide's <code>install-apt.sh</code> URL for Debian or Ubuntu. The <a href="https://github.com/jasonachkar/lasa/releases">release page</a> lists the published versions and downloads.</p>
+<p>Key fingerprint mismatches, invalid metadata signatures and package hash errors are trust failures. Keep the diagnostic and expected fingerprint, check proxy or cache behavior, and contact your repository administrator.</p>
+<p>If an installed binary fails <code>lasa doctor</code>, check kernel, syscall, seccomp and procfs support. See <a href="../compatibility/">compatibility</a>.</p>
 
 
 
