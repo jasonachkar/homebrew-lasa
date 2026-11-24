@@ -1,0 +1,633 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Use LASA to understand local Linux attack surface, collection scope, evidence, privacy and operational limits.">
+      
+      
+      
+        <link rel="canonical" href="https://lasa.secureobs.com/current/security-inspections/">
+      
+      
+        <link rel="prev" href="../installation/">
+      
+      
+        <link rel="next" href="../package-advisories/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Security inspections - LASA Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../assets/site.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#security-inspections" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a class="lasa-brand" href=".." aria-label="LASA documentation home" data-md-component="logo">
+      <img src="../assets/logo.svg" alt="" width="36" height="36">
+      <span>LASA</span>
+    </a>
+    
+      
+        <label class="md-header__button md-icon lasa-mobile-search lasa-toggle" for="__search" role="button" tabindex="0" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    <div class="lasa-header-tools">
+      <a class="lasa-source md-icon" href="https://github.com/jasonachkar/lasa" aria-label="LASA source code on GitHub" title="Source code">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+      </a>
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+        <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      
+      <label class="md-header__button md-icon lasa-menu lasa-toggle" for="__drawer" role="button" tabindex="0" aria-label="Toggle navigation" aria-controls="lasa-navigation" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      </label>
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav id="lasa-navigation" class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <span class="md-nav__button md-logo">
+  <img src="../assets/logo.svg" alt="logo">
+</span>
+    LASA Documentation
+  </label>
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      <li class="md-nav__item md-nav__item--section">
+        <details class="lasa-nav-section" open>
+          <summary class="lasa-nav-heading">
+            <span id="lasa-nav-1">Start here</span>
+            <span class="md-icon lasa-nav-caret" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
+          </summary>
+          <ul class="md-nav__list" aria-labelledby="lasa-nav-1">
+            
+              <li class="md-nav__item">
+                <a href=".." class="md-nav__link">
+                  <span class="md-ellipsis">Welcome</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../product-guide/" class="md-nav__link">
+                  <span class="md-ellipsis">Product guide</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../installation/" class="md-nav__link">
+                  <span class="md-ellipsis">Install LASA</span>
+                </a>
+              </li>
+            
+          </ul>
+        </details>
+      </li>
+    
+      <li class="md-nav__item md-nav__item--section">
+        <details class="lasa-nav-section" open>
+          <summary class="lasa-nav-heading">
+            <span id="lasa-nav-2">Use LASA</span>
+            <span class="md-icon lasa-nav-caret" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
+          </summary>
+          <ul class="md-nav__list" aria-labelledby="lasa-nav-2">
+            
+              <li class="md-nav__item md-nav__item--active">
+                <a href="./" class="md-nav__link md-nav__link--active" aria-current="page">
+                  <span class="md-ellipsis">Security inspections</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../package-advisories/" class="md-nav__link">
+                  <span class="md-ellipsis">Package advisories</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../cli-reference/" class="md-nav__link">
+                  <span class="md-ellipsis">CLI reference</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../results/" class="md-nav__link">
+                  <span class="md-ellipsis">Understand results</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../operations/" class="md-nav__link">
+                  <span class="md-ellipsis">Operate and deploy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../troubleshooting/" class="md-nav__link">
+                  <span class="md-ellipsis">Troubleshoot</span>
+                </a>
+              </li>
+            
+          </ul>
+        </details>
+      </li>
+    
+      <li class="md-nav__item md-nav__item--section">
+        <details class="lasa-nav-section" open>
+          <summary class="lasa-nav-heading">
+            <span id="lasa-nav-3">Trust and scope</span>
+            <span class="md-icon lasa-nav-caret" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span>
+          </summary>
+          <ul class="md-nav__list" aria-labelledby="lasa-nav-3">
+            
+              <li class="md-nav__item">
+                <a href="../data-and-privacy/" class="md-nav__link">
+                  <span class="md-ellipsis">Collection, access and privacy</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../detection-coverage/" class="md-nav__link">
+                  <span class="md-ellipsis">Detection coverage</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../compatibility/" class="md-nav__link">
+                  <span class="md-ellipsis">Compatibility and limits</span>
+                </a>
+              </li>
+            
+              <li class="md-nav__item">
+                <a href="../secureobs/" class="md-nav__link">
+                  <span class="md-ellipsis">SecureObs and local exports</span>
+                </a>
+              </li>
+            
+          </ul>
+        </details>
+      </li>
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#choose-the-collection-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose the collection scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-each-module-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each module checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#systemd-execution-and-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Systemd execution and permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssh-connection-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSH connection contexts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall-packet-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall packet contexts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#container-runtime-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Container runtime access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#budgets-failures-and-unknowns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Budgets, failures and unknowns
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content" data-md-component="content">
+    
+    <article class="md-content__inner md-typeset">
+      
+        
+
+
+
+<h1 id="security-inspections">Security inspections</h1>
+<p>LASA combines its default Linux metadata scan with optional configuration inspections. Use these inspections to connect service settings, local identities, execution paths, container configuration and package advisories to evidence-backed findings.</p>
+<h2 id="choose-the-collection-scope">Choose the collection scope</h2>
+<p>A default <code>lasa scan</code> retains its metadata-only behavior. Configuration inspection is an explicit choice:</p>
+<div class="highlight"><pre><span></span><code>lasa<span class="w"> </span>scan<span class="w"> </span>--inspect<span class="w"> </span>systemd,ssh,permissions<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>inspection.report.json
+</code></pre></div>
+<p>Enable all inspection modules when you have authorization for their documented access:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>lasa<span class="w"> </span>scan<span class="w"> </span>--profile<span class="w"> </span>deep<span class="w"> </span>--inspect<span class="w"> </span>all<span class="w"> </span>--advisories<span class="w"> </span>advisories.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeout<span class="w"> </span>2m<span class="w"> </span>--max-inspection-items<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>inspection.report.json
+</code></pre></div>
+<p>LASA never elevates itself. <code>sudo</code> is an operator choice; <code>--profile deep</code> requires effective UID 0. Inspection flags also work with <code>lasa daemon</code>. Modules are independent of the base profile: <code>--inspect all</code> enables every module, while a container profile continues to describe the container-visible system.</p>
+<p><code>--roots</code> controls the baseline filesystem metadata collector. It does <strong>not</strong> restrict the configuration providers enabled by <code>--inspect</code>. Those providers use the sources described below. Review <a href="../data-and-privacy/">data access and privacy</a> before enabling them.</p>
+<p>If <code>lasa scan --help</code> does not list <code>--inspect</code>, update to a scanner build containing inspection modules. New scans use report schema v2; see <a href="../results/">results and compatibility</a>.</p>
+<h2 id="what-each-module-checks">What each module checks</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Inspected sources</th>
+<th>Findings and qualifications</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>systemd</code></td>
+<td>Loaded and enabled service inventory; selected effective system-manager properties</td>
+<td>Writable root-service executables, interpreter scripts and environment-file paths; selected missing restrictions on an associated root listener. Effective overrides come from the manager. Alternate root images/directories and unsupported execution syntax remain unknown.</td>
+</tr>
+<tr>
+<td><code>ssh</code></td>
+<td>Configuration-only <code>sshd -G</code> output for selected connection contexts</td>
+<td>Root password authentication without a required additional method; disabled <code>StrictModes</code>. These describe policy for the recorded context, not a successful login, unlocked account or reachable SSH service.</td>
+</tr>
+<tr>
+<td><code>sudo</code></td>
+<td>Local passwd/group metadata and noninteractive native long-list policy queries</td>
+<td>Unrestricted root delegation, passwordless unrestricted grants and writable delegated command paths. Native policy evaluation handles configuration includes and aliases; unsupported output/RunAs expressions remain unknown. Intended administrator grants can be suppressed with a justification and expiry.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>Selected privileged/sensitive paths, their ancestry, ownership, ACLs and mount metadata</td>
+<td>Named local identities with discretionary write or replacement candidates. This supplements baseline permission-bit findings; it does not attempt a write.</td>
+</tr>
+<tr>
+<td><code>firewall</code></td>
+<td>JSON nftables rules in the scanner network namespace; observed listeners and interface addresses</td>
+<td>Management endpoints permitted by the supported nftables packet model. Verdicts cover a recorded packet context and do not prove upstream reachability.</td>
+</tr>
+<tr>
+<td><code>containers</code></td>
+<td>An explicitly selected local Docker-compatible UNIX socket, through read-only HTTP queries</td>
+<td>Running privileged containers, host PID mode, runtime socket mounts, sensitive writable bind mounts and selected dangerous-capability/unconfined combinations. The selected daemon defines the runtime scope.</td>
+</tr>
+<tr>
+<td><code>packages</code></td>
+<td>Native installed-package database, selected executable ownership queries and a local advisory database</td>
+<td>Distribution-specific affected versions, high-severity advisories and affected packages associated with non-loopback listeners. Vendor backport versions are compared with Debian/RPM semantics.</td>
+</tr>
+<tr>
+<td><code>scheduler</code></td>
+<td>System crontab, <code>/etc/cron.d</code>, root crontab spool locations and active systemd timers</td>
+<td>Writable execution/configuration/search paths in supported root jobs and timer services. Shell expansion, pipelines, wrappers and other unsupported syntax produce coverage diagnostics.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="systemd-execution-and-permissions">Systemd execution and permissions</h2>
+<p>Systemd inspection queries effective properties instead of treating every unit-looking file as an active service. It considers loaded active/activating services and enabled/linked service configurations. A disabled, inactive unit is not automatically treated as an active root entry point.</p>
+<p>For supported interpreters, LASA identifies the script path as well as the interpreter. Supported relative scripts use the effective working directory. Environment-file <strong>paths and permissions</strong> are inspected; their contents are not opened by LASA. Inline programs and unsupported execution options remain explicit gaps. A privileged command prefix in a non-root unit requires independent review.</p>
+<p>A discretionary access candidate can involve writing a file directly or replacing an affected path component. LASA considers local UID/group membership, ACL masks, directory search permission, sticky-directory ownership, read-only mount state and mount boundaries. It detects selected metadata changes during inspection and asks for a rerun when the path changes.</p>
+<p>The result remains conditional: immutable/append-only flags, SELinux/AppArmor policy, remote filesystem authorization, service activation and later changes can affect actual impact. External directory-service membership and arbitrary identity-provider policy are not reconstructed from <code>/etc/passwd</code> and <code>/etc/group</code>.</p>
+<h2 id="ssh-connection-contexts">SSH connection contexts</h2>
+<p><code>sshd -G</code> requires OpenSSH 9.3 or later. LASA uses configuration-only mode rather than host-key validation mode. An unavailable provider produces a diagnostic; it does not fall back to reading private keys.</p>
+<p>Supply representative contexts so <code>Match</code> conditions are evaluated for intended clients:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>lasa<span class="w"> </span>scan<span class="w"> </span>--inspect<span class="w"> </span>ssh<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ssh-context<span class="w"> </span><span class="s1">'user=root,host=admin.example,addr=192.0.2.20,laddr=192.0.2.10,lport=22'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ssh-context<span class="w"> </span><span class="s1">'user=deploy,host=admin.example,addr=192.0.2.20,laddr=192.0.2.10,lport=22'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>ssh.report.json
+</code></pre></div>
+<p>Required context fields are <code>user</code>, <code>host</code>, <code>addr</code>, <code>laddr</code> and <code>lport</code>; <code>rdomain</code> is optional. Addresses must be IP literals. The default context is root from localhost to localhost on port 22. A result for that default is <strong>not</strong> a statement about every remote client. Context values are stored in the report.</p>
+<h2 id="firewall-packet-contexts">Firewall packet contexts</h2>
+<p>For a wildcard listener, supply a destination address actually observed on a local interface. Supply source and interface information when policy depends on them:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>lasa<span class="w"> </span>scan<span class="w"> </span>--inspect<span class="w"> </span>firewall<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--network-source<span class="w"> </span><span class="m">192</span>.0.2.20<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--network-destination<span class="w"> </span><span class="m">192</span>.0.2.10<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--network-interface<span class="w"> </span>eth0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>firewall.report.json
+</code></pre></div>
+<p>The model considers new TCP/UDP traffic, supported literal address/prefix/port/interface conditions, inline sets/ranges, base-chain policy and supported chain jumps/returns. Later base chains can still block an earlier accept. An empty nftables input policy does not establish filtering.</p>
+<p>Unsupported expressions, named sets, packet transformations, other hooks or insufficient packet context produce an unknown verdict. Legacy iptables, XDP/tc, upstream firewalls, NAT, cloud security groups and application authentication are outside this verdict. Other network namespaces require independent inspection. LASA does not send a packet or make an authentication attempt to establish these findings.</p>
+<h2 id="container-runtime-access">Container runtime access</h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>lasa<span class="w"> </span>scan<span class="w"> </span>--inspect<span class="w"> </span>containers<span class="w"> </span>--container-socket<span class="w"> </span>/run/docker.sock<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>containers.report.json
+</code></pre></div>
+<p>This module uses a Docker-compatible API, versions 1.24 through 1.50, over the selected UNIX socket. It does not implement containerd's native gRPC API or the Kubernetes API. Compatible Podman endpoints must implement the queried Docker API behavior. Remote TCP endpoints and redirects are not used.</p>
+<p>Runtime socket access is privileged even when LASA sends only read-only requests. A read-only bind mount of a UNIX socket does not restrict its API operations. Inspect responses can contain environment values and other sensitive fields in transit through scanner memory; LASA discards those fields and stores only its selected configuration evidence. This access is excluded from the default scan.</p>
+<h2 id="budgets-failures-and-unknowns">Budgets, failures and unknowns</h2>
+<p><code>--max-inspection-items</code> defaults to 256 and accepts 1–4096. It bounds enumerated work within each module, including permission targets. Command output, API responses, file reads, evidence arrays and report exports have additional bounds. A limit produces incomplete coverage rather than a claim that remaining assets are safe.</p>
+<p><code>--inspection-command-timeout</code> defaults to 5 seconds per native command. <code>--timeout</code> bounds the whole scan cooperatively. Native command cancellation terminates its process group. A kernel-blocked filesystem operation can still require external process supervision; no in-process timeout can guarantee interruption of every kernel operation.</p>
+<p>Inspect <code>inspect.MODULE</code> coverage and diagnostics before accepting a report. Missing tools, missing permissions, inaccessible managers/sockets, unsupported syntax, stale advisories and timeouts identify the affected operation and scope. Raw native error output is withheld when it could contain configuration secrets; recognized errors retain safe cause and configuration-location information.</p>
+<p>Use <code>--strict</code> when automation must reject incomplete collection. Use <code>--fail-on high</code> to apply a separate finding-severity gate. Neither flag turns unknown checks into a secure result.</p>
+<p>See <a href="../detection-coverage/">detection coverage</a>, <a href="../package-advisories/">package advisories</a> and <a href="../troubleshooting/">troubleshooting</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </article>
+    <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Install LASA">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Install LASA
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../package-advisories/" class="md-footer__link md-footer__link--next" aria-label="Next: Package advisories">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Package advisories
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright lasa-copyright">
+  <span>LASA <span aria-hidden="true">&middot;</span> Linux Attack Surface Analyzer</span>
+  <a href="../assets/licenses/NOTICE.txt">Third-party notices</a>
+</div>
+      
+    </div>
+  </div>
+</footer>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../assets/site.js"></script>
+      
+    
+  </body>
+</html>
