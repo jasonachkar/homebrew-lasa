@@ -1,0 +1,54 @@
+Package: lasa
+Version: 0.1.1
+Architecture: arm64
+Maintainer: Jason Achkar Diab <83395276+jasonachkar@users.noreply.github.com>
+Installed-Size: 7396
+Filename: pool/main/l/lasa/lasa_0.1.1_arm64.deb
+Size: 2361862
+MD5sum: 9aea893b85184b4555427f3d914cc882
+SHA1: 4cd9af56955f03c2c890e6b0613a86da46ed1b59
+SHA256: 7d6c474eee75adf6f26f041e2f631d25b6295d73618f784afdb50add77d7cdad
+Section: utils
+Priority: optional
+Homepage: https://github.com/jasonachkar/lasa
+Description: Scoped read-only Linux attack surface analyzer
+ Collects local Linux metadata and reports evidence-backed conditional risks.
+ Requires Linux openat2 support (normally kernel 5.6+) and visible procfs.
+ No service is enabled and no scan runs during installation.
+
+Package: lasa
+Version: 0.1.2
+Architecture: arm64
+Maintainer: Jason Achkar Diab <83395276+jasonachkar@users.noreply.github.com>
+Installed-Size: 7396
+Filename: pool/main/l/lasa/lasa_0.1.2_arm64.deb
+Size: 2371942
+MD5sum: eebc023d684dcf60102005d188e31b2b
+SHA1: a8d84cf645082ca41845956cecb807f10632056a
+SHA256: 06abc796d21039d90052e50a3cb2bb69d3354030c7eab9eb65d5819907dab8e4
+Section: utils
+Priority: optional
+Homepage: https://github.com/jasonachkar/lasa
+Description: Scoped read-only Linux attack surface analyzer
+ Collects local Linux metadata and reports evidence-backed conditional risks.
+ Requires Linux openat2 support (normally kernel 5.6+) and visible procfs.
+ No service is enabled and no scan runs during installation.
+
+Package: lasa
+Version: 0.2.2
+Architecture: arm64
+Maintainer: Jason Achkar Diab <83395276+jasonachkar@users.noreply.github.com>
+Installed-Size: 7616
+Filename: pool/main/l/lasa/lasa_0.2.2_arm64.deb
+Size: 2427754
+MD5sum: 9d56dfcc2bb5b7d9ab00ac042a29ff2a
+SHA1: 523f31d8bb998d31398d0a245fb52003f7e14089
+SHA256: 1c774c36a2e791731abafc668c13eb4fb3719b5563a606020b5ac40c30af5cf8
+Section: utils
+Priority: optional
+Homepage: https://github.com/jasonachkar/lasa
+Description: Scoped read-only Linux attack surface analyzer
+ Collects local Linux metadata and reports evidence-backed conditional risks.
+ Requires Linux openat2 support (normally kernel 5.6+) and visible procfs.
+ No service is enabled and no scan runs during installation.
+

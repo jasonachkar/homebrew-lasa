@@ -15,8 +15,12 @@ if [ "$(id -u)" != 0 ]; then
   command -v sudo >/dev/null || { echo 'Installing APT packages requires root or sudo.' >&2; exit 1; }
   sudo_cmd=(sudo)
 fi
-"${sudo_cmd[@]}" apt-get update -o APT::Update::Error-Mode=any
-"${sudo_cmd[@]}" apt-get install -y ca-certificates curl gnupg
+# Existing clients may need a new signing subkey before APT can refresh LASA.
+# Use their installed prerequisites to refresh the pinned keyring first.
+if ! command -v curl >/dev/null || ! command -v gpg >/dev/null || [ ! -s /etc/ssl/certs/ca-certificates.crt ]; then
+  "${sudo_cmd[@]}" apt-get update -o APT::Update::Error-Mode=any
+  "${sudo_cmd[@]}" apt-get install -y ca-certificates curl gnupg
+fi
 temp=$(mktemp -d)
 trap 'rm -rf "$temp"' EXIT
 chmod 0700 "$temp"

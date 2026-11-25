@@ -1,18 +1,18 @@
 class Lasa < Formula
   desc "Scoped read-only Linux attack surface analyzer"
   homepage "https://github.com/jasonachkar/lasa"
-  version "0.1.2"
+  version "0.2.2"
   license "MIT"
   depends_on :linux
 
   on_linux do
     on_intel do
-      url "https://github.com/jasonachkar/lasa/releases/download/v0.1.2/lasa-0.1.2-linux-amd64.tar.gz"
-      sha256 "871a96774f33f69e5d06f440b1bc53d1a1cd9c9084ec0a8cb6efb168fa2f4785"
+      url "https://github.com/jasonachkar/lasa/releases/download/v0.2.2/lasa-0.2.2-linux-amd64.tar.gz"
+      sha256 "fe2c16c270fcb875900b852ea851f5a7aa14df62b95d3c63b68d03694eb58207"
     end
     on_arm do
-      url "https://github.com/jasonachkar/lasa/releases/download/v0.1.2/lasa-0.1.2-linux-arm64.tar.gz"
-      sha256 "015a8c31e4dfa55cf68e8e9be941ad47e14b2614c1a3300aac7ee9a4a8788c86"
+      url "https://github.com/jasonachkar/lasa/releases/download/v0.2.2/lasa-0.2.2-linux-arm64.tar.gz"
+      sha256 "db0c3cfdb6653a358e1b2d4a72383be9dc27c358cb240fedb2995cb538a87a18"
     end
   end
 
