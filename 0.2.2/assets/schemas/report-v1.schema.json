@@ -1,0 +1,1323 @@
+{
+  "$defs": {
+    "AttackPath": {
+      "additionalProperties": false,
+      "properties": {
+        "conditional_step": {
+          "type": "string"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/Edge"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "entities": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "entry_conditions": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "factors": {
+          "items": {
+            "$ref": "#/$defs/Factor"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "potential_impact": {
+          "type": "string"
+        },
+        "uncertainties": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "entities",
+        "edges",
+        "evidence",
+        "entry_conditions",
+        "conditional_step",
+        "potential_impact",
+        "uncertainties",
+        "factors"
+      ],
+      "type": "object"
+    },
+    "Container": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "process": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "process",
+        "hint",
+        "confidence"
+      ],
+      "type": "object"
+    },
+    "Coverage": {
+      "additionalProperties": false,
+      "properties": {
+        "attempted": {
+          "type": "integer"
+        },
+        "collector": {
+          "type": "string"
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "completed": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "inconclusive": {
+          "type": "integer"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "skipped": {
+          "type": "integer"
+        },
+        "started": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "successful": {
+          "type": "integer"
+        },
+        "unsupported": {
+          "type": "integer"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "collector",
+        "version",
+        "started",
+        "completed",
+        "attempted",
+        "successful",
+        "skipped",
+        "unsupported",
+        "inconclusive",
+        "complete",
+        "scope"
+      ],
+      "type": "object"
+    },
+    "Credentials": {
+      "additionalProperties": false,
+      "properties": {
+        "gid": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        },
+        "gid_map": {
+          "type": "string"
+        },
+        "groups": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "uid": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        },
+        "uid_map": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "gid",
+        "groups",
+        "uid_map",
+        "gid_map"
+      ],
+      "type": "object"
+    },
+    "Diagnostic": {
+      "additionalProperties": false,
+      "properties": {
+        "cause": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "component": {
+          "type": "string"
+        },
+        "errno": {
+          "type": "integer"
+        },
+        "impact": {
+          "type": "string"
+        },
+        "operation": {
+          "type": "string"
+        },
+        "recoverable": {
+          "type": "boolean"
+        },
+        "remediation": {
+          "type": "string"
+        },
+        "requirement": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "component",
+        "operation",
+        "target",
+        "cause",
+        "impact",
+        "remediation",
+        "recoverable"
+      ],
+      "type": "object"
+    },
+    "Edge": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "type",
+        "evidence"
+      ],
+      "type": "object"
+    },
+    "Evaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "observed",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ],
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "subject",
+        "state",
+        "evidence"
+      ],
+      "type": "object"
+    },
+    "Factor": {
+      "additionalProperties": false,
+      "properties": {
+        "contribution": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "contribution",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "File": {
+      "additionalProperties": false,
+      "properties": {
+        "acl": {
+          "enum": [
+            "observed",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ],
+          "type": "string"
+        },
+        "capabilities": {
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "gid": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "inode": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "mode": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "path": {
+          "type": "string"
+        },
+        "read_only": {
+          "enum": [
+            "observed",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ],
+          "type": "string"
+        },
+        "uid": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "path",
+        "inode",
+        "device",
+        "mode",
+        "uid",
+        "gid",
+        "acl",
+        "read_only",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "attack_path": {
+          "$ref": "#/$defs/AttackPath"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "coverage": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "exposure": {
+          "enum": [
+            "confirmed",
+            "potential",
+            "local",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        "factors": {
+          "items": {
+            "$ref": "#/$defs/Factor"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "prerequisites": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "remediation": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "rule_version": {
+          "type": "string"
+        },
+        "score_version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "stable_subject": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "subjects": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "suppressed": {
+          "type": "boolean"
+        },
+        "suppression_reason": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "rule_id",
+        "rule_version",
+        "title",
+        "description",
+        "subject",
+        "subjects",
+        "stable_subject",
+        "severity",
+        "confidence",
+        "exposure",
+        "evidence",
+        "prerequisites",
+        "warnings",
+        "remediation",
+        "priority",
+        "score_version",
+        "factors",
+        "attack_path",
+        "coverage",
+        "suppressed"
+      ],
+      "type": "object"
+    },
+    "Graph": {
+      "additionalProperties": false,
+      "properties": {
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/Edge"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/Node"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ],
+      "type": "object"
+    },
+    "Host": {
+      "additionalProperties": false,
+      "properties": {
+        "architecture": {
+          "type": "string"
+        },
+        "boot_id": {
+          "type": "string"
+        },
+        "distribution": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kernel": {
+          "type": "string"
+        },
+        "network_namespace": {
+          "type": "string"
+        },
+        "os": {
+          "type": "string"
+        },
+        "pid_namespace": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "user_namespace": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "boot_id",
+        "os",
+        "distribution",
+        "kernel",
+        "architecture",
+        "scope",
+        "pid_namespace",
+        "user_namespace",
+        "network_namespace"
+      ],
+      "type": "object"
+    },
+    "Interface": {
+      "additionalProperties": false,
+      "properties": {
+        "addresses": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "flags": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "index": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "index",
+        "addresses",
+        "flags",
+        "namespace"
+      ],
+      "type": "object"
+    },
+    "KernelControl": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "observed",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "value",
+        "state",
+        "source"
+      ],
+      "type": "object"
+    },
+    "Mount": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "type": "string"
+        },
+        "filesystem": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "optional": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "options": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "parent": {
+          "type": "integer"
+        },
+        "root": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "parent",
+        "device",
+        "root",
+        "target",
+        "options",
+        "optional",
+        "filesystem",
+        "source",
+        "namespace"
+      ],
+      "type": "object"
+    },
+    "Node": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "stable_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "stable_id",
+        "kind",
+        "label"
+      ],
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "collector": {
+          "type": "string"
+        },
+        "derived": {
+          "type": "boolean"
+        },
+        "error_code": {
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "redacted": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "observed",
+            "not_observed",
+            "unknown",
+            "not_applicable"
+          ],
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "subject",
+        "key",
+        "state",
+        "source",
+        "collector",
+        "at",
+        "derived",
+        "redacted"
+      ],
+      "type": "object"
+    },
+    "Process": {
+      "additionalProperties": false,
+      "properties": {
+        "capabilities": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "cgroups": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "container_hint": {
+          "type": "boolean"
+        },
+        "executable": {
+          "type": "string"
+        },
+        "executable_device": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "executable_inode": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "fd_complete": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "identity": {
+          "$ref": "#/$defs/Credentials"
+        },
+        "name": {
+          "type": "string"
+        },
+        "namespaces": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "no_new_privs": {
+          "type": "integer"
+        },
+        "pid": {
+          "type": "integer"
+        },
+        "ppid": {
+          "type": "integer"
+        },
+        "seccomp": {
+          "type": "integer"
+        },
+        "seccomp_filters": {
+          "type": "integer"
+        },
+        "service": {
+          "type": "string"
+        },
+        "socket_inodes": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "stable_id": {
+          "type": "string"
+        },
+        "start_time_ticks": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "stable_id",
+        "pid",
+        "ppid",
+        "start_time_ticks",
+        "name",
+        "executable",
+        "executable_inode",
+        "executable_device",
+        "identity",
+        "capabilities",
+        "namespaces",
+        "seccomp",
+        "seccomp_filters",
+        "no_new_privs",
+        "cgroups",
+        "socket_inodes",
+        "fd_complete",
+        "container_hint"
+      ],
+      "type": "object"
+    },
+    "RuntimeEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "boot_id": {
+          "type": "string"
+        },
+        "command_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "initial_namespace_pid": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "initial_namespace_ppid": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "initial_namespace_tid": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "namespace_flags": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "port": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "process_start_boot_ns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "result": {
+          "type": "integer"
+        },
+        "schema": {
+          "const": "lasa.runtime/v1"
+        },
+        "static_subject": {
+          "type": "string"
+        },
+        "timestamp_boot_ns": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "schema",
+        "id",
+        "kind",
+        "boot_id",
+        "timestamp_boot_ns",
+        "process_start_boot_ns",
+        "initial_namespace_pid",
+        "initial_namespace_tid",
+        "uid",
+        "initial_namespace_ppid",
+        "command_name",
+        "result"
+      ],
+      "type": "object"
+    },
+    "Service": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "process": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "process",
+        "source"
+      ],
+      "type": "object"
+    },
+    "Snapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "complete": {
+          "type": "boolean"
+        },
+        "completed": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "containers": {
+          "items": {
+            "$ref": "#/$defs/Container"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "controls": {
+          "items": {
+            "$ref": "#/$defs/KernelControl"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "coverage": {
+          "items": {
+            "$ref": "#/$defs/Coverage"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/Diagnostic"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "evaluations": {
+          "items": {
+            "$ref": "#/$defs/Evaluation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "files": {
+          "items": {
+            "$ref": "#/$defs/File"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/Finding"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "graph": {
+          "$ref": "#/$defs/Graph"
+        },
+        "host": {
+          "$ref": "#/$defs/Host"
+        },
+        "interfaces": {
+          "items": {
+            "$ref": "#/$defs/Interface"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "lost_runtime_events": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mounts": {
+          "items": {
+            "$ref": "#/$defs/Mount"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/Observation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "processes": {
+          "items": {
+            "$ref": "#/$defs/Process"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "profile": {
+          "type": "string"
+        },
+        "runtime_events": {
+          "items": {
+            "$ref": "#/$defs/RuntimeEvent"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "scan_id": {
+          "type": "string"
+        },
+        "scanner_version": {
+          "type": "string"
+        },
+        "schema": {
+          "const": "lasa.report/v1"
+        },
+        "services": {
+          "items": {
+            "$ref": "#/$defs/Service"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sockets": {
+          "items": {
+            "$ref": "#/$defs/Socket"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "started": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema",
+        "scanner_version",
+        "scan_id",
+        "started",
+        "completed",
+        "profile",
+        "host",
+        "processes",
+        "sockets",
+        "interfaces",
+        "mounts",
+        "files",
+        "services",
+        "containers",
+        "controls",
+        "observations",
+        "graph",
+        "findings",
+        "evaluations",
+        "runtime_events",
+        "lost_runtime_events",
+        "diagnostics",
+        "coverage",
+        "complete"
+      ],
+      "type": "object"
+    },
+    "Socket": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "exposure": {
+          "enum": [
+            "confirmed",
+            "potential",
+            "local",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "inode": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "owners": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "port": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "protocol": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "protocol",
+        "family",
+        "address",
+        "port",
+        "state",
+        "inode",
+        "namespace",
+        "owners",
+        "exposure"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/jasonachkar/lasa/schemas/report-v1.schema.json",
+  "$ref": "#/$defs/Snapshot",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LASA report v1"
+}

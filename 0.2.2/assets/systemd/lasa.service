@@ -1,0 +1,41 @@
+[Unit]
+Description=LASA scoped read-only Linux attack surface analysis
+Documentation=https://github.com/jasonachkar/lasa
+After=local-fs.target
+
+[Service]
+Type=simple
+User=lasa
+Group=lasa
+StateDirectory=lasa
+StateDirectoryMode=0700
+ExecStart=/usr/local/bin/lasa daemon --state-dir /var/lib/lasa --profile standard --interval 15m --retention 96
+Restart=on-failure
+RestartSec=10s
+TimeoutStopSec=45s
+NoNewPrivileges=yes
+ProtectSystem=no
+ProtectHome=no
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_NETLINK AF_INET AF_INET6
+CapabilityBoundingSet=
+AmbientCapabilities=
+UMask=0077
+MemoryMax=512M
+TasksMax=32
+LimitNOFILE=1024
+# Preserve the host file-permission view: read-only bind mounts would alter
+# the metadata used for write-risk candidates. Analysis itself is read-only.
+# A static service account avoids DynamicUser StateDirectory symlinks.
+# Do not set ProtectProc=invisible, ProcSubset=pid or PrivateUsers:
+# these would hide evidence the scanner is intended to inspect.
+
+[Install]
+WantedBy=multi-user.target
